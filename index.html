@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flobb · Book a clean. Join the community.</title>
+<meta name="description" content="Flobb connects Lagos homes and businesses with vetted cleaners — and gives cleaners the training, tools and bookings to build a real career. Book a clean in 60 seconds, or join the Flobb Cleaning Community.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     FLOBB · Upgraded landing (community-led)
+     Brand: navy (clients/services)  +  green (community)
+     Visual upgrade: Aurora mesh gradients, scroll motion, refined type
+     ───────────────────────────────────────────────────────────── */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy:       #0F3A9B;
+    --navy-deep:  #0B2D7A;
+    --navy-2063:  #0B2063;
+    --sky:        #2096D3;
+    --ink:        #0F1A36;
+    --ink-2:      #3A4560;
+    --mute:       #6B7593;
+    --mute-2:     #8892AC;
+
+    /* Community accent (green) */
+    --green-cta:      #0E8F4C;
+    --green-cta-deep: #0B7A40;
+    --green-bright:   #7BE2A8;
+    --green-ink:      #0C6E3D;
+    --green-soft:     #E7F8EF;
+
+    --gold:       #FFC857;
+    --gold-ink:   #8A5B00;
+    --gold-soft:  #FFF6E4;
+
+    --bg:         #F5F7FA;
+    --paper:      #ffffff;
+    --sky-soft:   #EBF5FC;
+    --border:     rgba(15,58,155,.10);
+    --border-2:   rgba(15,58,155,.16);
+
+    --serif:      'DM Serif Display', Georgia, serif;
+    --sans:       'DM Sans', system-ui, sans-serif;
+    --radius-sm:  10px;
+    --radius:     18px;
+    --radius-lg:  28px;
+    --shadow-sm:  0 4px 16px rgba(15,58,155,.06);
+    --shadow:     0 14px 40px rgba(15,58,155,.12);
+    --shadow-lg:  0 30px 80px rgba(11,32,99,.22);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { display: block; max-width: 100%; }
+  ul { list-style: none; }
+  :focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; border-radius: 6px; }
+
+  /* ── Layout ─────────────────────────────────────────────── */
+  .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 96px 0; }
+  .section-tight { padding: 60px 0; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  @media (max-width: 900px) {
+    .grid-2 { grid-template-columns: 1fr; gap: 40px; }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+    .section { padding: 72px 0; }
+  }
+  @media (max-width: 600px) {
+    .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr; }
+    .section { padding: 56px 0; }
+    .container { padding: 0 18px; }
+  }
+
+  /* ── Typography ─────────────────────────────────────────── */
+  h1, h2, h3, .bigtext { font-family: var(--serif); line-height: 1.1; letter-spacing: -0.02em; }
+  h1 { font-size: clamp(2.5rem, 6.2vw, 4.2rem); }
+  h2 { font-size: clamp(1.95rem, 4vw, 3rem); }
+  h3 { font-size: 1.25rem; }
+  .editorial { font-size: clamp(1.9rem, 3.6vw, 2.8rem); }
+  .bigtext { font-size: clamp(2rem, 5vw, 3.6rem); }
+  .lede { font-size: 1.12rem; color: var(--ink-2); line-height: 1.62; max-width: 54ch; margin-bottom: 28px; }
+  .eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--navy); margin-bottom: 14px; display:inline-flex; align-items:center; gap:8px; }
+  .eyebrow.on-dark { color: var(--green-bright); }
+  .eyebrow.green { color: var(--green-ink); }
+  .eyebrow::before { content:''; width:22px; height:2px; background:currentColor; border-radius:2px; opacity:.65; }
+  p { margin-bottom: 16px; }
+
+  /* ── Buttons ────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content:center; gap: 8px;
+    padding: 13px 26px; border-radius: 50px;
+    font-weight: 600; font-size: 15px; font-family: var(--sans);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease; cursor: pointer; border: none;
+    min-height: 46px; white-space: nowrap;
+  }
+  .btn-primary { background: var(--navy); color: #fff; }
+  .btn-primary:hover { background: var(--navy-deep); transform: translateY(-2px); box-shadow: 0 10px 26px rgba(15,58,155,.32); }
+  .btn-green { background: var(--green-cta); color: #fff; }
+  .btn-green:hover { background: var(--green-cta-deep); transform: translateY(-2px); box-shadow: 0 10px 26px rgba(14,143,76,.34); }
+  .btn-secondary { background: var(--bg); color: var(--ink); border: 1.5px solid var(--border-2); }
+  .btn-secondary:hover { background: #edf0f7; transform: translateY(-1px); }
+  .btn-solid-light { background: #fff; color: var(--navy); font-weight: 700; }
+  .btn-solid-light:hover { background: var(--bg); transform: translateY(-2px); }
+  .btn-ghost-light { background: transparent; color: rgba(255,255,255,.9); border: 1.5px solid rgba(255,255,255,.32); }
+  .btn-ghost-light:hover { background: rgba(255,255,255,.12); }
+  .btn-wa { background:#25D366; color:#08331b; font-weight:700; }
+  .btn-wa:hover { background:#20c25c; transform: translateY(-2px); box-shadow:0 10px 26px rgba(37,211,102,.3); }
+  .btn-lg { padding: 15px 30px; font-size: 16px; min-height: 52px; }
+  .btn-arrow::after { content: ' →'; }
+  .btn-block { width: 100%; }
+
+  /* ── Chips ──────────────────────────────────────────────── */
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(15,58,155,.08); color: var(--navy);
+    font-size: 12.5px; font-weight: 600;
+    padding: 6px 13px; border-radius: 50px; line-height: 1;
+  }
+  .chip.on-dark { background: rgba(255,255,255,.14); color: #fff; }
+  .chip.gold { background: var(--gold-soft); color: var(--gold-ink); }
+  .chip.green { background: var(--green-soft); color: var(--green-ink); }
+  .dotp { width:7px; height:7px; border-radius:50%; background: var(--green-bright); box-shadow: 0 0 0 3px rgba(123,226,168,.28); }
+
+  /* ── Header / Nav ───────────────────────────────────────── */
+  .site-header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,.9); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav { display: flex; align-items: center; gap: 28px; height: 70px; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-wordmark { font-family: var(--serif); font-size: 1.5rem; color: var(--navy); letter-spacing: -0.02em; }
+  .brand-dot { color: var(--green-cta); }
+  .nav-links { display: flex; gap: 2px; margin-left: auto; }
+  .nav-links a { font-size: 14.5px; font-weight: 500; color: var(--ink-2); padding: 7px 13px; border-radius: 50px; transition: all .15s; }
+  .nav-links a:hover { background: var(--bg); color: var(--ink); }
+  .nav-cta { display: flex; gap: 10px; }
+  .nav-toggle { display: none; background: none; border: none; cursor: pointer; color: var(--ink); padding:8px; }
+  @media (max-width: 940px) {
+    .nav-links { display: none; }
+    .nav-cta .btn-secondary { display:none; }
+  }
+  @media (max-width: 620px) { .nav-cta { display:none; } .nav-toggle { display: flex; margin-left:auto; } }
+  /* mobile menu */
+  .mobile-menu { display:none; border-bottom:1px solid var(--border); background:#fff; }
+  .mobile-menu.open { display:block; }
+  .mobile-menu a { display:block; padding:14px 24px; font-weight:600; color:var(--ink-2); border-top:1px solid var(--border); }
+  .mobile-menu .mm-cta { display:flex; gap:10px; padding:16px 24px; }
+
+  /* ── Aurora backgrounds ─────────────────────────────────── */
+  .aurora { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .aurora::before, .aurora::after {
+    content:''; position:absolute; border-radius:50%; filter: blur(60px); opacity:.55;
+    animation: drift 18s ease-in-out infinite;
+  }
+  .aurora::before { width:520px; height:520px; left:-80px; top:-120px; background: radial-gradient(circle at 30% 30%, rgba(32,150,211,.9), transparent 62%); }
+  .aurora::after  { width:560px; height:560px; right:-120px; bottom:-160px; background: radial-gradient(circle at 60% 60%, rgba(123,226,168,.7), transparent 60%); animation-delay:-9s; }
+  @keyframes drift {
+    0%,100% { transform: translate3d(0,0,0) scale(1); }
+    50% { transform: translate3d(28px,-22px,0) scale(1.08); }
+  }
+
+  /* ── Hero ───────────────────────────────────────────────── */
+  .hero {
+    background:
+      radial-gradient(ellipse at 78% 18%, rgba(32,150,211,.42) 0%, transparent 52%),
+      radial-gradient(ellipse at 12% 92%, rgba(14,143,76,.34) 0%, transparent 48%),
+      linear-gradient(160deg, #0B2063 0%, #0F3A9B 58%, #1558C9 100%);
+    color: #fff; padding: 92px 0 84px; overflow: hidden; position: relative;
+  }
+  .hero .container { position: relative; z-index: 2; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 60px; align-items: center; }
+  .hero h1 { color: #fff; margin-bottom: 22px; }
+  .hero .lede { color: rgba(255,255,255,.85); max-width: 46ch; }
+  .hero .highlight { color: var(--green-bright); font-style: italic; }
+  .hero-ctas { display:flex; gap:14px; flex-wrap:wrap; margin: 4px 0 26px; }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } .hero { padding: 68px 0 60px; } }
+
+  .app-badges { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .app-badge { display:inline-flex; align-items:center; gap:10px; background: rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:12px; padding:9px 16px; transition: all .18s; }
+  .app-badge:hover { background: rgba(255,255,255,.2); }
+  .app-badge .text { display:flex; flex-direction:column; }
+  .app-badge .top { font-size:9.5px; opacity:.75; }
+  .app-badge .bot { font-size:13.5px; font-weight:700; line-height:1.1; }
+  .meta-row { display:flex; align-items:center; gap:10px; font-size:13.5px; color: rgba(255,255,255,.72); flex-wrap:wrap; }
+  .meta-row .dot { width:4px; height:4px; background: rgba(255,255,255,.4); border-radius:50%; }
+
+  /* Device mock */
+  .device-mock { background:#0B1E4A; border-radius:40px; padding:15px; box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,.08); max-width:288px; margin:0 auto; position:relative; }
+  .notch { width:82px; height:20px; background:#0B1E4A; border-radius:0 0 14px 14px; margin:0 auto 8px; }
+  .screen { background:#fff; border-radius:26px; padding:20px; }
+  .screen-greeting { font-size:11px; color:var(--mute); font-weight:500; }
+  .screen-name { font-size:14px; font-weight:700; color:var(--ink); }
+  .screen-headline { font-family:var(--serif); font-size:17px; color:var(--ink); margin:16px 0 13px; line-height:1.24; }
+  .screen-search { display:flex; align-items:center; gap:8px; background:var(--bg); border-radius:12px; padding:10px 13px; font-size:12px; color:var(--mute); margin-bottom:14px; }
+  .screen-search .pill { margin-left:auto; background:var(--navy); color:#fff; font-size:10.5px; font-weight:700; padding:4px 9px; border-radius:20px; }
+  .screen-tiles { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .screen-tile { background:var(--bg); border-radius:12px; padding:10px; }
+  .screen-tile .ic { width:26px; height:26px; border-radius:8px; color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-bottom:6px; }
+  .screen-tile .nm { font-size:11.5px; font-weight:700; color:var(--ink); }
+  .screen-tile .sub { font-size:10px; color:var(--mute-2); margin-top:2px; }
+
+  /* ── Two doors router ───────────────────────────────────── */
+  .doors { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:-44px; position:relative; z-index:5; }
+  .door { background:#fff; border:1.5px solid var(--border); border-radius:var(--radius-lg); padding:30px 28px; box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s, border-color .2s; display:flex; flex-direction:column; gap:8px; }
+  .door:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .door.client:hover { border-color: var(--navy); }
+  .door.cleaner:hover { border-color: var(--green-cta); }
+  .door .door-tag { font-size:11px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; }
+  .door.client .door-tag { color: var(--navy); }
+  .door.cleaner .door-tag { color: var(--green-ink); }
+  .door h3 { font-family:var(--serif); font-size:1.5rem; color:var(--ink); }
+  .door p { font-size:14.5px; color:var(--ink-2); margin:2px 0 14px; }
+  .door .btn { align-self:flex-start; }
+  @media (max-width:760px){ .doors { grid-template-columns:1fr; margin-top:-30px; } }
+
+  /* ── Community section ──────────────────────────────────── */
+  .community { background:
+      radial-gradient(ellipse at 90% 0%, rgba(14,143,76,.10) 0%, transparent 40%),
+      radial-gradient(ellipse at 0% 100%, rgba(123,226,168,.14) 0%, transparent 45%),
+      var(--paper);
+    position:relative; }
+  .benefit-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:20px; }
+  @media (max-width:900px){ .benefit-grid { grid-template-columns:1fr 1fr; } }
+  @media (max-width:600px){ .benefit-grid { grid-template-columns:1fr; } }
+  .benefit { background:#fff; border:1.5px solid var(--border); border-radius:var(--radius); padding:26px 24px; transition: transform .2s, box-shadow .2s, border-color .2s; }
+  .benefit:hover { transform:translateY(-3px); box-shadow: var(--shadow); border-color: rgba(14,143,76,.35); }
+  .benefit .b-ic { width:48px; height:48px; border-radius:14px; background:var(--green-soft); color:var(--green-ink); display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
+  .benefit h3 { font-family:var(--sans); font-size:16.5px; font-weight:700; margin-bottom:9px; color:var(--ink); }
+  .benefit p { font-size:14px; color:var(--ink-2); line-height:1.55; margin:0; }
+  .benefit .b-num { float:right; font-family:var(--serif); font-size:1.5rem; color:rgba(14,143,76,.22); line-height:1; }
+
+  /* Join form / tier card row */
+  .join-wrap { display:grid; grid-template-columns: 1.05fr .95fr; gap:36px; align-items:stretch; margin-top:44px; }
+  @media (max-width:900px){ .join-wrap { grid-template-columns:1fr; } }
+  .join-card { background: linear-gradient(160deg, #0A5A32 0%, #0E8F4C 100%); color:#fff; border-radius:var(--radius-lg); padding:34px; position:relative; overflow:hidden; }
+  .join-card .aurora::before { background: radial-gradient(circle at 30% 30%, rgba(123,226,168,.7), transparent 60%); opacity:.4; }
+  .join-card h3 { color:#fff; font-family:var(--serif); font-size:1.7rem; margin-bottom:8px; position:relative; z-index:2; }
+  .join-card > p { color:rgba(255,255,255,.85); font-size:14.5px; position:relative; z-index:2; margin-bottom:20px; }
+  .form-row { display:grid; gap:12px; position:relative; z-index:2; }
+  .field { display:flex; flex-direction:column; gap:6px; }
+  .field label { font-size:12px; font-weight:600; letter-spacing:.3px; color:rgba(255,255,255,.8); }
+  .field input, .field select, .field textarea {
+    font-family:var(--sans); font-size:14.5px; color:var(--ink);
+    background:#fff; border:1.5px solid transparent; border-radius:12px; padding:12px 14px; width:100%;
+  }
+  .field input::placeholder { color:var(--mute-2); }
+  .field select { cursor:pointer; }
+  .seg { display:flex; gap:8px; flex-wrap:wrap; }
+  .seg label { flex:1; min-width:96px; cursor:pointer; }
+  .seg input { position:absolute; opacity:0; pointer-events:none; }
+  .seg .opt { display:block; text-align:center; padding:11px 8px; border-radius:12px; background:rgba(255,255,255,.14); border:1.5px solid rgba(255,255,255,.22); color:#fff; font-size:13.5px; font-weight:600; transition: all .15s; }
+  .seg input:checked + .opt { background:#fff; color:var(--green-ink); border-color:#fff; }
+  .seg input:focus-visible + .opt { outline:3px solid #fff; outline-offset:2px; }
+  .join-note { font-size:12px; color:rgba(255,255,255,.72); margin-top:12px; position:relative; z-index:2; }
+
+  /* value/earnings tier card */
+  .value-card { background:#fff; border:1.5px solid var(--border); border-radius:var(--radius-lg); padding:32px; display:flex; flex-direction:column; }
+  .value-card .vc-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .value-card h4 { font-family:var(--serif); font-size:1.4rem; color:var(--ink); }
+  .prog { display:flex; gap:6px; margin:20px 0 10px; }
+  .prog span { flex:1; height:7px; border-radius:4px; background:var(--bg); }
+  .prog span.on { background: var(--green-cta); }
+  .value-stats { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:auto; padding-top:22px; border-top:1px solid var(--border); }
+  .value-stats .k { font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--mute); font-weight:600; }
+  .value-stats .v { font-size:1.5rem; font-weight:800; color:var(--ink); letter-spacing:-.5px; margin-top:2px; }
+  .value-list { margin:16px 0 0; }
+  .value-list li { padding:8px 0 8px 28px; position:relative; font-size:14.5px; color:var(--ink-2); }
+  .value-list li svg { position:absolute; left:0; top:9px; }
+
+  /* ── Services ───────────────────────────────────────────── */
+  .service-tile { display:flex; flex-direction:column; gap:8px; background:var(--paper); border:1.5px solid var(--border); border-radius:var(--radius); padding:22px; cursor:pointer; transition: all .2s; }
+  .service-tile:hover { border-color: var(--navy); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(15,58,155,.12); }
+  .service-tile .ic { width:42px; height:42px; border-radius:12px; color:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .service-tile .nm { font-size:15.5px; font-weight:700; color:var(--ink); }
+  .service-tile .sub { font-size:12.5px; color:var(--mute); font-weight:600; }
+  .service-tile .desc { font-size:13.5px; color:var(--mute-2); margin:auto 0 0; }
+
+  /* Add-ons */
+  .addon-grid { display:grid; grid-template-columns: repeat(4,1fr); gap:14px; }
+  @media (max-width:900px){ .addon-grid { grid-template-columns:1fr 1fr; } }
+  @media (max-width:520px){ .addon-grid { grid-template-columns:1fr 1fr; } }
+  .addon { background:#fff; border:1.5px solid var(--border); border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:4px; }
+  .addon .a-ic { width:34px; height:34px; border-radius:10px; background:var(--sky-soft); color:var(--navy); display:flex; align-items:center; justify-content:center; margin-bottom:6px; }
+  .addon .a-nm { font-size:14px; font-weight:700; color:var(--ink); }
+  .addon .a-price { font-size:12.5px; color:var(--green-ink); font-weight:700; }
+
+  /* Promo campaigns */
+  .promo-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  @media (max-width:760px){ .promo-grid { grid-template-columns:1fr; } }
+  .promo { position:relative; border-radius:var(--radius-lg); padding:32px; overflow:hidden; color:#fff; }
+  .promo .aurora { opacity:.9; }
+  .promo.holiday { background: linear-gradient(150deg, #7a1f6e 0%, #b8324f 55%, #e8672f 100%); }
+  .promo.holiday .aurora::before { background: radial-gradient(circle at 30% 30%, rgba(255,200,87,.6), transparent 60%); }
+  .promo.holiday .aurora::after { background: radial-gradient(circle at 60% 60%, rgba(232,103,47,.7), transparent 60%); }
+  .promo.weekend { background: linear-gradient(150deg, #0B2063 0%, #0F3A9B 55%, #2096D3 100%); }
+  .promo-badge { display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.3); color:#fff; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:6px 12px; border-radius:50px; position:relative; z-index:2; }
+  .promo h3 { position:relative; z-index:2; font-family:var(--serif); font-size:1.9rem; color:#fff; margin:16px 0 8px; }
+  .promo p { position:relative; z-index:2; font-size:15px; color:rgba(255,255,255,.9); max-width:42ch; margin-bottom:20px; }
+  .promo .promo-meta { position:relative; z-index:2; display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:22px; font-size:13px; color:rgba(255,255,255,.85); }
+  .promo .promo-meta .code { background:rgba(255,255,255,.16); border:1px dashed rgba(255,255,255,.5); padding:4px 12px; border-radius:8px; font-weight:700; letter-spacing:1px; }
+  .promo .btn { position:relative; z-index:2; }
+
+  /* Booking form */
+  .book-card { background:#fff; border:1.5px solid var(--border); border-radius:var(--radius-lg); padding:34px; box-shadow: var(--shadow-sm); }
+  .book-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:600px){ .book-grid { grid-template-columns:1fr; } }
+  .book-card .field label { color:var(--ink-2); }
+  .book-card .field input, .book-card .field select { border-color:var(--border-2); background:#fff; }
+  .book-card .field input:focus, .book-card .field select:focus { border-color:var(--navy); outline:none; }
+  .checks { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  @media (max-width:600px){ .checks { grid-template-columns:1fr; } }
+  .checks label { display:flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); background:var(--bg); border:1.5px solid var(--border); border-radius:10px; padding:10px 12px; cursor:pointer; transition: all .15s; }
+  .checks input { width:17px; height:17px; accent-color: var(--navy); }
+  .checks label:hover { border-color: var(--navy); }
+
+  /* ── Steps ──────────────────────────────────────────────── */
+  .step-card { background:var(--paper); border:1.5px solid var(--border); border-radius:var(--radius); padding:28px 24px; transition: transform .2s, box-shadow .2s; }
+  .step-card:hover { transform:translateY(-3px); box-shadow: var(--shadow); }
+  .step-card .num { width:42px; height:42px; border-radius:50%; background:var(--navy); color:#fff; font-size:16px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:18px; font-family:var(--serif); }
+  .step-card h3 { font-family:var(--sans); font-size:16px; font-weight:700; margin-bottom:10px; }
+  .step-card p { font-size:14.5px; line-height:1.55; color:var(--ink-2); margin:0; }
+
+  /* ── Trust cards ─────────────────────────────────────────── */
+  .card { background:var(--paper); border:1.5px solid var(--border); border-radius:var(--radius); padding:28px; transition: transform .2s, box-shadow .2s; }
+  .card:hover { transform:translateY(-3px); box-shadow: var(--shadow); }
+  .card-icon { width:50px; height:50px; border-radius:14px; background:var(--sky-soft); color:var(--navy); display:flex; align-items:center; justify-content:center; margin-bottom:18px; }
+  .h3 { font-family:var(--sans); font-size:16.5px; font-weight:700; margin-bottom:10px; }
+
+  /* ── Stats ──────────────────────────────────────────────── */
+  .stat-row { display:flex; justify-content:space-around; align-items:center; flex-wrap:wrap; gap:32px; }
+  .stat { display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .stat .num { font-family:var(--serif); font-size:2.8rem; color:#fff; line-height:1; }
+  .stat .label { font-size:13.5px; color:rgba(255,255,255,.62); font-weight:500; }
+
+  /* ── Quote cards ─────────────────────────────────────────── */
+  .quote-card { background:var(--paper); border:1.5px solid var(--border); border-radius:var(--radius); padding:28px; display:flex; flex-direction:column; gap:16px; }
+  .quote-card .stars { color:var(--gold); font-size:14px; letter-spacing:2px; }
+  .quote-card .quote { font-size:14.5px; color:var(--ink-2); line-height:1.6; font-style:italic; flex:1; }
+  .quote-card .who { display:flex; align-items:center; gap:12px; }
+  .quote-card .avatar { width:42px; height:42px; border-radius:50%; color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .quote-card .nm { font-size:14px; font-weight:700; color:var(--ink); }
+  .quote-card .role { font-size:12px; color:var(--mute); }
+
+  /* ── B2B / Enterprise ────────────────────────────────────── */
+  .app-band { background: linear-gradient(135deg, var(--ink) 0%, #1A2D6A 100%); }
+  .doc-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:36px; }
+  .doc-card { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:var(--radius); padding:24px; }
+  .doc-card .doc-num { font-size:10.5px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--green-bright); margin-bottom:8px; }
+  .doc-card h4 { font-family:var(--sans); font-size:15px; font-weight:700; color:#fff; margin-bottom:10px; }
+  .doc-card ul { display:flex; flex-direction:column; gap:6px; }
+  .doc-card li { font-size:13px; color:rgba(255,255,255,.65); padding-left:14px; position:relative; line-height:1.45; }
+  .doc-card li::before { content:'→'; position:absolute; left:0; color:var(--green-bright); font-size:11px; top:1px; }
+  @media (max-width:900px){ .doc-cards { grid-template-columns:1fr; } }
+
+  .track-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:36px; }
+  .track-card { background:var(--paper); border:1.5px solid var(--border); border-radius:var(--radius); padding:24px; position:relative; overflow:hidden; }
+  .track-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--navy); }
+  .track-card .type-badge { font-size:10.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--navy); background:var(--sky-soft); padding:4px 10px; border-radius:20px; display:inline-block; margin-bottom:14px; }
+  .track-card h4 { font-family:var(--serif); font-size:1.3rem; color:var(--ink); margin-bottom:10px; }
+  .track-card p { font-size:14px; color:var(--ink-2); line-height:1.55; margin:0; }
+  @media (max-width:900px){ .track-cards { grid-template-columns:1fr; } }
+
+  .engage-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin-top:40px; position:relative; }
+  .engage-steps::before { content:''; position:absolute; top:24px; left:12.5%; right:12.5%; height:2px; background:var(--border); z-index:0; }
+  .engage-step { text-align:center; padding:0 12px; position:relative; z-index:1; }
+  .engage-step .step-circle { width:48px; height:48px; border-radius:50%; background:var(--navy); color:#fff; font-size:18px; font-weight:800; font-family:var(--serif); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; box-shadow:0 0 0 6px var(--paper), 0 0 0 8px var(--border); }
+  .engage-step h4 { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+  .engage-step p { font-size:13px; color:var(--mute); line-height:1.5; margin:0; }
+  @media (max-width:768px){ .engage-steps { grid-template-columns:1fr 1fr; gap:28px 12px; } .engage-steps::before { display:none; } }
+  @media (max-width:480px){ .engage-steps { grid-template-columns:1fr; } }
+
+  /* ── FAQ ─────────────────────────────────────────────────── */
+  .faq { max-width:820px; margin:40px auto 0; }
+  .faq details { border:1.5px solid var(--border); border-radius:14px; padding:2px 20px; margin-bottom:12px; background:#fff; transition: border-color .15s; }
+  .faq details[open] { border-color: var(--border-2); box-shadow: var(--shadow-sm); }
+  .faq summary { list-style:none; cursor:pointer; padding:18px 0; font-weight:700; font-size:15.5px; color:var(--ink); display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .faq summary::-webkit-details-marker { display:none; }
+  .faq summary .plus { flex-shrink:0; width:24px; height:24px; border-radius:50%; background:var(--bg); display:flex; align-items:center; justify-content:center; transition: transform .2s; color:var(--navy); }
+  .faq details[open] summary .plus { transform: rotate(45deg); }
+  .faq p { font-size:14.5px; color:var(--ink-2); line-height:1.6; padding:0 0 18px; margin:0; }
+
+  /* ── Contact ─────────────────────────────────────────────── */
+  .contact-bar { background: linear-gradient(90deg, #0B2063, #1558C9); color:#fff; padding:52px 0; text-align:center; position:relative; overflow:hidden; }
+  .contact-bar .container { position:relative; z-index:2; }
+  .contact-bar h3 { font-family:var(--serif); font-size:1.9rem; color:#fff; margin-bottom:8px; }
+  .contact-bar p { color:rgba(255,255,255,.78); font-size:15px; margin-bottom:0; }
+  .contact-details { display:flex; gap:40px; justify-content:center; flex-wrap:wrap; margin-top:28px; }
+  .contact-item { display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .contact-item .label { font-size:10.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--green-bright); }
+  .contact-item .value { font-size:15px; font-weight:600; color:#fff; }
+  .contact-item a { color:#fff; }
+
+  /* ── Footer ─────────────────────────────────────────────── */
+  .site-footer { background:var(--ink); color:rgba(255,255,255,.7); padding:72px 0 32px; }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr; gap:44px; margin-bottom:52px; }
+  .footer-brand p { font-size:14px; line-height:1.6; margin-top:14px; max-width:30ch; }
+  .footer-brand .brand-wordmark { color:#fff; font-size:1.6rem; }
+  .site-footer h4 { font-size:13px; font-weight:700; color:rgba(255,255,255,.5); letter-spacing:1px; text-transform:uppercase; margin-bottom:18px; }
+  .site-footer ul li { margin-bottom:10px; }
+  .site-footer ul li a { font-size:14.5px; color:rgba(255,255,255,.65); transition:color .15s; }
+  .site-footer ul li a:hover { color:#fff; }
+  .socials { display:flex; gap:12px; margin-top:20px; }
+  .socials a { color:rgba(255,255,255,.5); transition:color .15s; }
+  .socials a:hover { color:#fff; }
+  .footer-bottom { display:flex; justify-content:space-between; align-items:center; padding-top:28px; border-top:1px solid rgba(255,255,255,.1); font-size:13px; flex-wrap:wrap; gap:12px; }
+  .legal-row { display:flex; gap:20px; }
+  .legal-row a { color:rgba(255,255,255,.5); }
+  .legal-row a:hover { color:#fff; }
+  @media (max-width:900px){ .footer-grid { grid-template-columns:1fr 1fr; } }
+  @media (max-width:480px){ .footer-grid { grid-template-columns:1fr; } }
+
+  /* section heading helper */
+  .sec-head { max-width:640px; margin-bottom:44px; }
+  .sec-head.center { margin-left:auto; margin-right:auto; text-align:center; }
+  .sec-head p { color:var(--ink-2); font-size:1.08rem; margin:0; }
+
+  /* ── Scroll reveal motion ───────────────────────────────── */
+  .reveal { opacity:0; transform: translateY(22px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity:1; transform:none; }
+  .reveal.d1 { transition-delay:.06s; } .reveal.d2 { transition-delay:.12s; }
+  .reveal.d3 { transition-delay:.18s; } .reveal.d4 { transition-delay:.24s; }
+  .reveal.d5 { transition-delay:.30s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; scroll-behavior:auto !important; }
+    .reveal { opacity:1 !important; transform:none !important; transition:none !important; }
+    .aurora::before, .aurora::after { animation:none !important; }
+  }
+
+  /* toast */
+  .toast { position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(120%); background:var(--ink); color:#fff; padding:14px 22px; border-radius:50px; font-size:14px; font-weight:600; box-shadow: var(--shadow-lg); z-index:2000; transition: transform .35s cubic-bezier(.2,.8,.2,1); display:flex; align-items:center; gap:10px; max-width:calc(100% - 36px); }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+  .toast .t-dot { width:9px; height:9px; border-radius:50%; background:var(--green-bright); }
+  /* ── Landing upgrade (Oct) — community band, categories, bundles, track gallery ── */
+  .community-band { display:grid; grid-template-columns:1.3fr .9fr; gap:48px; align-items:center; background:var(--green-soft); border:1px solid rgba(14,143,76,.18); border-radius:var(--radius-lg); padding:40px; }
+  .community-points { display:flex; flex-direction:column; gap:14px; }
+  .community-points li { display:flex; gap:10px; align-items:flex-start; font-weight:600; color:var(--green-ink); font-size:15.5px; }
+  .community-points li svg { flex-shrink:0; margin-top:2px; }
+  @media (max-width:820px){ .community-band { grid-template-columns:1fr; gap:26px; padding:28px; } }
+
+  .svc-cats { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:12px; }
+  .svc-cat { background:var(--paper); border:1px solid var(--border); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow-sm); }
+  .svc-cat h4 { font-family:var(--serif); font-size:1.2rem; margin-bottom:3px; color:var(--ink); }
+  .svc-cat .cat-sub { font-size:12.5px; color:var(--mute); margin-bottom:14px; }
+  .svc-cat ul li { font-size:14px; color:var(--ink-2); padding:7px 0; border-top:1px solid var(--border-light); display:flex; justify-content:space-between; gap:12px; align-items:center; }
+  .svc-cat ul li:first-child { border-top:0; }
+  .svc-cat ul li span { color:var(--mute); font-size:12px; white-space:nowrap; }
+  @media (max-width:900px){ .svc-cats { grid-template-columns:1fr 1fr; } }
+  @media (max-width:600px){ .svc-cats { grid-template-columns:1fr; } }
+
+  .bundle-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+  .bundle { position:relative; overflow:hidden; border-radius:var(--radius-lg); padding:30px; color:#fff; box-shadow:var(--shadow); }
+  .bundle h3 { color:#fff; font-size:1.4rem; }
+  .bundle p { color:rgba(255,255,255,.9); font-size:14.5px; margin:8px 0 16px; }
+  .bundle .b-items { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .bundle .b-items span { background:rgba(255,255,255,.16); color:#fff; font-size:12px; font-weight:600; padding:5px 11px; border-radius:50px; }
+  .bundle .bundle-badge { display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.18); color:#fff; font-size:11px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; padding:6px 12px; border-radius:50px; margin-bottom:14px; }
+  @media (max-width:820px){ .bundle-grid { grid-template-columns:1fr; } }
+
+  .track-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:36px; }
+  .track-gallery figure { position:relative; border-radius:var(--radius); overflow:hidden; aspect-ratio:4/3; box-shadow:var(--shadow-sm); margin:0; }
+  .track-gallery img { width:100%; height:100%; object-fit:cover; transition:transform .4s ease; }
+  .track-gallery figure:hover img { transform:scale(1.06); }
+  .track-gallery figcaption { position:absolute; left:0; right:0; bottom:0; padding:28px 14px 12px; background:linear-gradient(transparent, rgba(11,32,99,.82)); }
+  .track-gallery .tg-type { font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--green-bright); display:block; margin-bottom:2px; }
+  .track-gallery .tg-name { font-size:14.5px; font-weight:600; color:#fff; }
+  @media (max-width:900px){ .track-gallery { grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .track-gallery { grid-template-columns:1fr; } }
+  /* Build-your-clean builder */
+  .svc-cat ul li.svc-pick { align-items:center; gap:10px; }
+  .pick-main { display:flex; align-items:center; gap:10px; cursor:pointer; flex:1; min-width:0; }
+  .pick-check { width:18px; height:18px; accent-color:var(--green-cta); cursor:pointer; flex-shrink:0; }
+  .pick-name { font-size:14px; color:var(--ink-2); }
+  .svc-pick.on .pick-name { color:var(--ink); font-weight:600; }
+  .pick-right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+  .pick-unit { color:var(--mute); font-size:12px; white-space:nowrap; }
+  .pick-price { color:var(--green-ink); font-weight:700; font-size:12.5px; }
+  .svc-pick.on .pick-unit:not(.pick-price) { display:none; }
+  .pick-ctrl { display:none; align-items:center; gap:6px; }
+  .svc-pick.on .pick-ctrl { display:inline-flex; }
+  .qstep { display:inline-flex; align-items:center; gap:2px; background:var(--bg); border:1px solid var(--border-2); border-radius:50px; padding:2px; }
+  .qstep button { width:24px; height:24px; border:0; background:#fff; border-radius:50%; cursor:pointer; font-size:15px; line-height:1; color:var(--navy); font-weight:700; box-shadow:var(--shadow-sm); }
+  .qstep input.qnum { width:30px; border:0; background:transparent; text-align:center; font-size:14px; font-weight:600; -moz-appearance:textfield; color:var(--ink); }
+  .qstep input.qnum::-webkit-outer-spin-button, .qstep input.qnum::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+  .qunit { font-size:11.5px; color:var(--mute); }
+  .psel { border:1px solid var(--border-2); border-radius:8px; padding:4px 8px; font-size:13px; font-family:var(--sans); background:var(--bg); color:var(--ink); cursor:pointer; }
+
+  .builder-bar { position:sticky; bottom:16px; z-index:20; margin-top:30px; display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--ink); color:#fff; border-radius:var(--radius); padding:14px 22px; box-shadow:var(--shadow-lg); flex-wrap:wrap; }
+  .builder-bar .bb-count { font-size:14.5px; }
+  .builder-bar .bb-count strong { color:var(--green-bright); font-size:1.15rem; }
+
+  .sel-summary { background:var(--bg); border:1px solid var(--border-2); border-radius:12px; padding:14px 16px; font-size:14px; color:var(--ink); }
+  .sel-summary .sel-item { padding:4px 0; }
+  .sel-summary .sel-bundle { font-weight:700; color:var(--navy); }
+  .sel-summary .sel-sub { font-size:12.5px; color:var(--mute); padding:2px 0 6px; border-bottom:1px solid var(--border-light); margin-bottom:4px; }
+  .sel-summary .sel-empty { color:var(--mute); }
+  .sel-clear { background:none; border:0; color:#8B1A2A; font-size:12.5px; font-weight:600; cursor:pointer; padding:0; }
+
+  /* Request-received confirmation modal */
+  .req-modal-bg { position:fixed; inset:0; background:rgba(11,32,99,.55); backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; z-index:1000; padding:20px; }
+  .req-modal-bg.open { display:flex; }
+  .req-modal { background:var(--paper); border-radius:var(--radius-lg); max-width:440px; width:100%; padding:36px 32px; text-align:center; box-shadow:var(--shadow-lg); animation:reqPop .25s ease; }
+  @keyframes reqPop { from{ transform:translateY(12px) scale(.97); opacity:0 } to{ transform:none; opacity:1 } }
+  .req-check { width:64px; height:64px; border-radius:50%; background:linear-gradient(160deg,#0A5A32,#0E8F4C); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; box-shadow:0 10px 26px rgba(14,143,76,.34); }
+  .req-modal h3 { font-family:var(--serif); font-size:1.7rem; color:var(--ink); margin-bottom:10px; }
+  .req-modal p { color:var(--ink-2); font-size:15px; line-height:1.6; margin-bottom:12px; }
+  .req-modal .req-note { background:var(--sky-soft); color:var(--navy); font-size:13.5px; border-radius:12px; padding:12px 14px; margin-bottom:22px; }
+  .req-modal .btn-block { margin-bottom:12px; }
+  .req-dismiss { background:none; border:0; color:var(--mute); font-size:13px; font-weight:600; cursor:pointer; }
+  .req-dismiss:hover { color:var(--ink); }
+
+  /* Hero "work we're proud of" picture slider */
+  .hero-slider { position:relative; border-radius:28px; overflow:hidden; box-shadow:var(--shadow-lg); aspect-ratio:4/5; max-width:400px; margin:0 auto; background:#0B1E4A; }
+  .hs-slide { position:absolute; inset:0; margin:0; opacity:0; transition:opacity .9s ease; }
+  .hs-slide.on { opacity:1; }
+  .hs-slide img { width:100%; height:100%; object-fit:cover; display:block; }
+  .hs-slide figcaption { position:absolute; left:0; right:0; bottom:0; padding:44px 22px 20px; background:linear-gradient(transparent, rgba(11,32,99,.88)); }
+  .hs-type { display:block; font-size:11px; font-weight:700; letter-spacing:.7px; text-transform:uppercase; color:var(--green-bright); }
+  .hs-name { display:block; font-family:var(--serif); font-size:1.5rem; color:#fff; margin-top:3px; line-height:1.15; }
+  .hs-badge { position:absolute; top:16px; left:16px; z-index:3; background:rgba(255,255,255,.94); color:var(--ink); font-size:11px; font-weight:700; padding:6px 13px; border-radius:50px; box-shadow:var(--shadow-sm); }
+  .hs-dots { position:absolute; bottom:16px; right:18px; z-index:3; display:flex; gap:6px; }
+  .hs-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.45); cursor:pointer; transition:all .25s; }
+  .hs-dot.on { background:#fff; width:18px; border-radius:4px; }
+
+</style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────── -->
+<header class="site-header">
+  <div class="container">
+    <nav class="nav">
+      <a class="brand" href="#top" aria-label="Flobb home">
+        <span class="brand-wordmark">Flobb<span class="brand-dot">.</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="flobb-community.html">Community</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#promos">Promos</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#b2b">Post-construction</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a class="btn btn-secondary" href="#book">Book a clean</a>
+        <a class="btn btn-green" href="flobb-community.html">Join the community</a>
+      </div>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" id="navToggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </nav>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="flobb-community.html">Community</a>
+    <a href="#services">Services</a>
+    <a href="#promos">Promos</a>
+    <a href="#how-it-works">How it works</a>
+    <a href="#b2b">Post-construction</a>
+    <a href="#faq">FAQ</a>
+    <div class="mm-cta">
+      <a class="btn btn-secondary btn-block" href="#book">Book a clean</a>
+      <a class="btn btn-green btn-block" href="flobb-community.html">Join</a>
+    </div>
+  </div>
+</header>
+
+<span id="top"></span>
+
+<!-- ── Hero ────────────────────────────────────────── -->
+<section class="hero">
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="chip on-dark" style="margin-bottom:22px">
+          <span class="dotp"></span> 500+ vetted cleaners online in Lagos
+        </div>
+        <h1>A clean home, sorted.<br>A cleaning <span class="highlight">career</span>, started.</h1>
+        <p class="lede">Flobb connects Lagos homes and businesses with vetted cleaners — and gives cleaners the training, tools and bookings to build a real career. Join the community, or book your first clean.</p>
+
+        <div class="hero-ctas">
+          <a href="#book" class="btn btn-solid-light btn-lg">Book a clean</a>
+          <a href="flobb-community.html" class="btn btn-ghost-light btn-lg">Join our community</a>
+        </div>
+
+        <div class="app-badges">
+          <a href="javascript:void(0)" class="app-badge" style="cursor:default" title="Coming soon">
+            <span class="glyph"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.05 12.97c-.03-2.83 2.31-4.18 2.41-4.25-1.31-1.91-3.36-2.18-4.09-2.21-1.74-.18-3.41 1.04-4.29 1.04-.9 0-2.25-1.02-3.7-.99-1.91.03-3.66 1.11-4.64 2.81-1.99 3.45-.51 8.55 1.41 11.36.94 1.37 2.06 2.91 3.51 2.86 1.41-.06 1.95-.91 3.66-.91s2.19.91 3.69.88c1.52-.03 2.49-1.4 3.42-2.77 1.08-1.59 1.52-3.13 1.55-3.21-.03-.01-2.97-1.14-3-4.51zM14.43 5.16c.77-.94 1.29-2.24 1.15-3.53-1.11.05-2.46.74-3.26 1.67-.71.82-1.34 2.15-1.17 3.42 1.24.1 2.5-.63 3.28-1.56z"/></svg></span>
+            <span class="text"><span class="top">Coming soon</span><span class="bot">App Store</span></span>
+          </a>
+          <a href="javascript:void(0)" class="app-badge" style="cursor:default" title="Coming soon">
+            <span class="glyph"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M3.6 1.7C3.2 2.1 3 2.7 3 3.5v17c0 .8.2 1.4.6 1.8l.1.1L13.2 13v-.2L3.7 1.6l-.1.1zm12.9 12.1l-3.2-1.8 2.4-2.4 3.7 2.1c1 .6 1 1.5 0 2.1l-2.9 2zm-1.4.7l-2.3 2.3 2.3 2.3-9.3-5.4 9.3-5.4 2.3 2.3-2.3 2.3z"/></svg></span>
+            <span class="text"><span class="top">Coming soon</span><span class="bot">Google Play</span></span>
+          </a>
+        </div>
+
+        <div class="meta-row">
+          <span><strong style="color:#fff">★ 4.8</strong> · 2,400+ cleans</span>
+          <span class="dot"></span>
+          <span>Escrow protected</span>
+          <span class="dot"></span>
+          <span>7 days · 8am–8pm</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="hero-slider reveal d2">
+          <span class="hs-badge">★ Work we're proud of</span>
+          <figure class="hs-slide on"><img src="track-castle-pride.jpeg" alt="Castle Pride Mall"><figcaption><span class="hs-type">Janitorial</span><span class="hs-name">Castle Pride Mall</span></figcaption></figure>
+          <figure class="hs-slide"><img src="track-michaels.jpeg" alt="Michael’s Mall"><figcaption><span class="hs-type">Janitorial</span><span class="hs-name">Michael’s Mall</span></figcaption></figure>
+          <figure class="hs-slide"><img src="track-choice.jpeg" alt="Choice Restaurant"><figcaption><span class="hs-type">Post-construction</span><span class="hs-name">Choice Restaurant</span></figcaption></figure>
+          <figure class="hs-slide"><img src="track-ashluxe.jpeg" alt="Ashluxe"><figcaption><span class="hs-type">Janitorial</span><span class="hs-name">Ashluxe</span></figcaption></figure>
+          <figure class="hs-slide"><img src="track-homesworth.png" alt="Homesworth Hotel"><figcaption><span class="hs-type">Post-construction</span><span class="hs-name">Homesworth Hotel</span></figcaption></figure>
+          <figure class="hs-slide"><img src="track-elizabeth.jpeg" alt="Elizabeth Court"><figcaption><span class="hs-type">Post-construction</span><span class="hs-name">Elizabeth Court</span></figcaption></figure>
+          <div class="hs-dots" id="hsDots"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats ────────────────────────────────────────── -->
+<section class="section-tight" style="background:var(--ink);">
+  <div class="container">
+    <div class="stat-row">
+      <div class="stat reveal"><span class="num">500+</span><span class="label">Vetted cleaners</span></div>
+      <div class="stat reveal d1"><span class="num">2,400+</span><span class="label">Cleans delivered</span></div>
+      <div class="stat reveal d2"><span class="num">4.8★</span><span class="label">Average rating</span></div>
+      <div class="stat reveal d3"><span class="num">98%</span><span class="label">Approved first time</span></div>
+      <div class="stat reveal d4"><span class="num">10</span><span class="label">B2B clients on retainer</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Two doors ───────────────────────────────────── -->
+<section style="background:var(--bg);padding-bottom:60px;">
+  <div class="container">
+    <div class="doors">
+      <div class="door client reveal">
+        <span class="door-tag">I need a clean</span>
+        <h3>Book a vetted cleaner</h3>
+        <p>Homes, offices, move-outs and post-construction. Fixed prices, escrow-protected, inspection on completion.</p>
+        <a href="#services" class="btn btn-primary">Browse services →</a>
+      </div>
+      <div class="door cleaner reveal d2">
+        <span class="door-tag">I clean · I want to learn</span>
+        <h3>Join the Flobb Community</h3>
+        <p>Free certification, real client bookings, the Flobb checklists, and early access to the platform. For cleaners and cleaning enthusiasts.</p>
+        <a href="flobb-community.html" class="btn btn-green">Join the community →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Testimonials ─────────────────────────────────── -->
+<section class="section" style="background:var(--bg);">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow">From clients &amp; cleaners</div>
+      <h2 class="editorial">What people say.</h2>
+    </div>
+    <div class="grid-3">
+      <div class="quote-card reveal">
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <div class="quote">"I've had four bad cleaners from WhatsApp groups this year. I made my first booking on the Flobb platform and I immediately got a job card of what the cleaner would be doing. The customer service was topnotch as I could check the progress of the cleaning with the job card and pictures of completion provided"</div>
+        <div class="who"><div class="avatar" style="background:var(--navy)">CO</div><div><div class="nm">Chiamaka O.</div><div class="role">Ikoyi · 6 cleans</div></div></div>
+      </div>
+      <div class="quote-card reveal d1">
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <div class="quote">"The community changed everything for me. I did the Flobb certification course, got my first bookings through Flobb in less than a week, and now I get more frequent bookings as my rating increases. The professionalism is undeniable"</div>
+        <div class="who"><div class="avatar" style="background:var(--green-cta)">BA</div><div><div class="nm">Blessing A.</div><div class="role">Flobb cleaner · Yaba</div></div></div>
+      </div>
+      <div class="quote-card reveal d2">
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <div class="quote">"We run multiple sales outlets in Lagos Island. Switched to Flobb six months ago. The excellence is impeccable. The team assigns supervisors that check up on the cleaners to ensure compliance to their cleaning standards. Our clients love our space and this is thanks to Flobb"</div>
+        <div class="who"><div class="avatar" style="background:var(--sky)">TE</div><div><div class="nm">Tunde E.</div><div class="role">Ops Lead, Workspace 50</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES (build-your-clean) ─────────── -->
+<section class="section" id="services" style="background:var(--bg);">
+  <div class="container">
+    <div style="display:flex;align-items:end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:28px;">
+      <div class="sec-head reveal" style="margin-bottom:0;">
+        <div class="eyebrow">Book a clean</div>
+        <h2 class="editorial">Build your clean.</h2>
+        <p>Pick any services across the categories below and set the quantity or size — your selection drops straight into the booking form. Fixed prices on core cleans; everything else quoted on booking.</p>
+      </div>
+      <a class="btn btn-arrow" href="#how-it-works" style="color:var(--navy)">See how it works</a>
+    </div>
+
+    <div class="svc-cats">
+      <div class="svc-cat reveal">
+        <h4>Core home cleaning</h4>
+        <div class="cat-sub">The everyday &amp; one-off cleans</div>
+        <ul>
+        <li class="svc-pick" data-unit="fixed" data-price="₦20,000 · 2h" data-svc="Standard (routine)"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Standard (routine)</span></label><span class="pick-right"><span class="pick-unit pick-price">₦20,000 · 2h</span></span></li>
+        <li class="svc-pick" data-unit="fixed" data-price="₦50,000 · 4h" data-svc="Deep clean"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Deep clean</span></label><span class="pick-right"><span class="pick-unit pick-price">₦50,000 · 4h</span></span></li>
+        <li class="svc-pick" data-unit="fixed" data-price="₦35,000" data-svc="Move-in / move-out"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Move-in / move-out</span></label><span class="pick-right"><span class="pick-unit pick-price">₦35,000</span></span></li>
+        <li class="svc-pick" data-unit="request" data-svc="Post-construction"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Post-construction</span></label><span class="pick-right"><span class="pick-unit">on request</span></span></li>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="hours" data-svc="Post-party / event"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Post-party / event</span></label><span class="pick-right"><span class="pick-unit">per hour</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="apartments" data-svc="Shortlet / Airbnb"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Shortlet / Airbnb</span></label><span class="pick-right"><span class="pick-unit">per apt</span><span class="pick-ctrl"></span></span></li>
+        </ul>
+      </div>
+      <div class="svc-cat reveal">
+        <h4>Fabrics &amp; upholstery</h4>
+        <div class="cat-sub">Sofas, rugs, mattresses &amp; drapes</div>
+        <ul>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="seats" data-svc="Sofa / couch cleaning"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Sofa / couch cleaning</span></label><span class="pick-right"><span class="pick-unit">per seat</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="size" data-svc="Rug &amp; carpet"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Rug &amp; carpet</span></label><span class="pick-right"><span class="pick-unit">by size</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="size" data-svc="Mattress cleaning"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Mattress cleaning</span></label><span class="pick-right"><span class="pick-unit">by size</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="panels" data-svc="Curtains &amp; blinds"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Curtains &amp; blinds</span></label><span class="pick-right"><span class="pick-unit">per panel</span><span class="pick-ctrl"></span></span></li>
+        </ul>
+      </div>
+      <div class="svc-cat reveal">
+        <h4>Kitchen &amp; appliances</h4>
+        <div class="cat-sub">Degrease, descale, deep clean</div>
+        <ul>
+        <li class="svc-pick" data-unit="size" data-svc="Kitchen deep clean"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Kitchen deep clean</span></label><span class="pick-right"><span class="pick-unit">by size</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="appliances" data-svc="Oven · fridge · cooker · hood"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Oven · fridge · cooker · hood</span></label><span class="pick-right"><span class="pick-unit">per appliance</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="units" data-svc="Air-conditioner units"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Air-conditioner units</span></label><span class="pick-right"><span class="pick-unit">per unit</span><span class="pick-ctrl"></span></span></li>
+        </ul>
+      </div>
+      <div class="svc-cat reveal">
+        <h4>Bathroom</h4>
+        <div class="cat-sub">Tiles, grout &amp; hard water</div>
+        <ul>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="bathrooms" data-svc="Bathroom deep clean"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Bathroom deep clean</span></label><span class="pick-right"><span class="pick-unit">per bathroom</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="bathrooms" data-svc="Tile &amp; grout scrub"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Tile &amp; grout scrub</span></label><span class="pick-right"><span class="pick-unit">per bathroom</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="bathrooms" data-svc="Descaling"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Descaling</span></label><span class="pick-right"><span class="pick-unit">per bathroom</span><span class="pick-ctrl"></span></span></li>
+        </ul>
+      </div>
+      <div class="svc-cat reveal">
+        <h4>Water &amp; outdoor</h4>
+        <div class="cat-sub">Tanks, glass &amp; compounds</div>
+        <ul>
+        <li class="svc-pick" data-unit="size" data-svc="Water tank cleaning"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Water tank cleaning</span></label><span class="pick-right"><span class="pick-unit">by size</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="storeys" data-svc="Window &amp; glass (in/out)"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Window &amp; glass (in/out)</span></label><span class="pick-right"><span class="pick-unit">per storey</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="size" data-svc="Compound · gutter · drainage"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Compound · gutter · drainage</span></label><span class="pick-right"><span class="pick-unit">by size</span><span class="pick-ctrl"></span></span></li>
+        </ul>
+      </div>
+      <div class="svc-cat reveal">
+        <h4>Specialist</h4>
+        <div class="cat-sub">Add-ons &amp; expert jobs</div>
+        <ul>
+        <li class="svc-pick" data-unit="size" data-svc="Fumigation &amp; pest control"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Fumigation &amp; pest control</span></label><span class="pick-right"><span class="pick-unit">by size</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="size" data-svc="Disinfection / sanitisation"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Disinfection / sanitisation</span></label><span class="pick-right"><span class="pick-unit">by size</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="bags" data-svc="Laundry &amp; ironing"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Laundry &amp; ironing</span></label><span class="pick-right"><span class="pick-unit">per bag</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="hours" data-svc="Decluttering &amp; wardrobe"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Decluttering &amp; wardrobe</span></label><span class="pick-right"><span class="pick-unit">per hour</span><span class="pick-ctrl"></span></span></li>
+        <li class="svc-pick" data-unit="qty" data-unitlabel="items" data-svc="Chandeliers &amp; high walls"><label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">Chandeliers &amp; high walls</span></label><span class="pick-right"><span class="pick-unit">per item</span><span class="pick-ctrl"></span></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="builder-bar reveal">
+      <div class="bb-count" id="bbCount"><strong>0</strong> services selected</div>
+      <a href="#book" id="bbGo" class="btn btn-solid-light">Go to booking →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROMOS ─────────────────────────── -->
+<section class="section" id="promos" style="padding-top:0;">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow" style="color:var(--gold-ink);">Limited campaigns</div>
+      <h2 class="editorial">Bundles customers get instantly.</h2>
+      <p>Smart combinations for life’s big moments — booked as one simple package.</p>
+    </div>
+    <div class="bundle-grid">
+      <div class="bundle reveal" style="background:linear-gradient(160deg,#0F3A9B,#0B2063);" data-service="New Home Pack">
+        <div class="aurora" aria-hidden="true"></div>
+        <span class="bundle-badge">Best for new tenants</span>
+        <h3>New Home Pack</h3>
+        <p>Move into a spotless, move-in-ready home — cleaned top to bottom, tank included and fumigated before you unpack.</p>
+        <div class="b-items"><span>Move-in clean</span><span>Water tank cleaning</span><span>Fumigation</span></div>
+        <a href="#book" class="btn btn-solid-light" data-bundle="New Home Pack" data-items="Move-in clean|Water tank cleaning|Fumigation">Book this bundle →</a>
+      </div>
+      <div class="bundle reveal" style="background:linear-gradient(160deg,#2096D3,#1558C9);" data-service="New Baby Pack">
+        <div class="aurora" aria-hidden="true"></div>
+        <span class="bundle-badge">New arrival</span>
+        <h3>New Baby Pack</h3>
+        <p>A fresh, sanitised home for your newest arrival — deep cleaned, disinfected, with a fresh mattress and curtains.</p>
+        <div class="b-items"><span>Deep clean</span><span>Sanitisation</span><span>Mattress</span><span>Curtains</span></div>
+        <a href="#book" class="btn btn-solid-light" data-bundle="New Baby Pack" data-items="Deep clean|Sanitisation|Mattress|Curtains">Book this bundle →</a>
+      </div>
+      <div class="bundle reveal" style="background:linear-gradient(160deg,#8B1A2A,#C07820);" data-service="Festive Deep Clean">
+        <div class="aurora" aria-hidden="true"></div>
+        <span class="bundle-badge">Seasonal</span>
+        <h3>Festive Deep Clean</h3>
+        <p>Host with pride for Christmas, Easter or Sallah. A full festive deep clean — book early, spaces are limited each season.</p>
+        <div class="b-items"><span>Deep clean</span><span>Kitchen</span><span>Windows &amp; glass</span></div>
+        <a href="#book" class="btn btn-solid-light" data-bundle="Festive Deep Clean" data-items="Deep clean|Kitchen|Windows &amp; glass">Book this bundle →</a>
+      </div>
+      <div class="bundle reveal" style="background:linear-gradient(160deg,#0A5A32,#0E8F4C);" data-service="Landlord Handover">
+        <div class="aurora" aria-hidden="true"></div>
+        <span class="bundle-badge">For landlords &amp; agents</span>
+        <h3>Landlord Handover</h3>
+        <p>Hand a property back in perfect condition. An empty-home clean with windows and bathroom descaling for a flawless handover.</p>
+        <div class="b-items"><span>Move-out clean</span><span>Windows</span><span>Bathroom descaling</span></div>
+        <a href="#book" class="btn btn-solid-light" data-bundle="Landlord Handover" data-items="Move-out clean|Windows|Bathroom descaling">Book this bundle →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BOOKING FORM ────────────────────────────────── -->
+<section class="section" id="book" style="background:var(--bg);padding-top:0;">
+  <div class="container">
+    <div class="grid-2" style="gap:48px;align-items:start;">
+      <div class="reveal">
+        <div class="eyebrow">Book a clean</div>
+        <h2 class="editorial">Tell us what you need.</h2>
+        <p class="lede">Fill this in and we'll open WhatsApp with your request ready to send. A Flobb coordinator confirms your cleaner, price and time — no payment until you're matched.</p>
+        <ul class="value-list" style="margin-top:8px;">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="#0E8F4C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Vetted &amp; insured cleaners only</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="#0E8F4C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Escrow-protected — pay only when you approve</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="#0E8F4C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Before &amp; after inspection photos every time</li>
+        </ul>
+      </div>
+
+      <div class="book-card">
+        <form id="bookForm">
+          <div class="field" style="margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px;">
+              <label style="margin:0;">Your selected services</label>
+              <button type="button" id="selClear" class="sel-clear">Clear</button>
+            </div>
+            <div id="selSummary" class="sel-summary"><div class="sel-empty">No services selected yet — pick services in <a href="#services" style="color:var(--navy);font-weight:600;">Build your clean</a> above.</div></div>
+            <input type="hidden" id="bSelection" name="selection">
+          </div>
+          <div class="book-grid" style="margin-bottom:16px;">
+
+            <div class="field">
+              <label for="bArea">Area <span style="color:var(--rose,#C0394F)">*</span></label>
+              <select id="bArea" name="area" onchange="toggleOtherArea()" required>
+                <option value="">Select area…</option>
+                <option>Lekki</option><option>Ikoyi</option><option>Victoria Island</option>
+                <option>Yaba</option><option>Ikeja</option><option>Surulere</option>
+                <option>Ajah</option><option>Gbagada</option><option>Other</option>
+              </select>
+              <input id="bAreaOther" type="text" placeholder="Type your area…" style="display:none;margin-top:8px;">
+            </div>
+            <div class="field">
+              <label for="bSize">Home size</label>
+              <select id="bSize" name="size">
+                <option>Studio / 1 room</option><option>1 bedroom</option><option>2 bedroom</option>
+                <option>3 bedroom</option><option>4+ bedroom</option><option>Office / commercial</option>
+                <option selected>Not applicable</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="bDate">Preferred date <span style="color:var(--rose,#C0394F)">*</span></label>
+              <input id="bDate" name="date" type="date" required>
+            </div>
+          </div>
+
+          <div class="field" style="margin-bottom:12px;">
+            <label>Add-ons</label>
+            <div class="checks">
+              <label><input type="checkbox" name="addon" value="Inside fridge"> Inside fridge</label>
+              <label><input type="checkbox" name="addon" value="Inside oven"> Inside oven</label>
+              <label><input type="checkbox" name="addon" value="Interior windows"> Interior windows</label>
+              <label><input type="checkbox" name="addon" value="Laundry & ironing"> Laundry &amp; ironing</label>
+              <label><input type="checkbox" name="addon" value="Wardrobe organising"> Wardrobe organising</label>
+            </div>
+          </div>
+
+          <label class="express-opt" style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px dashed var(--border-2);border-radius:14px;margin-bottom:14px;cursor:pointer;">
+            <input type="checkbox" name="addon" value="Same-day / Express" style="margin-top:3px;">
+            <span><strong>Same-day / Express</strong><br><span style="color:var(--mute);font-size:13px;">Need it urgently? Tick this — our support team will confirm the extra cost with you.</span></span>
+          </label>
+
+          <div class="book-grid" style="margin-bottom:14px;">
+            <div class="field">
+              <label for="bName">Your name</label>
+              <input id="bName" name="name" type="text" placeholder="e.g. Fola A." autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="bPhone">WhatsApp number</label>
+              <input id="bPhone" name="phone" type="text" placeholder="080…" autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="field" style="margin-bottom:18px;">
+            <label for="bEmail">Email <span style="color:var(--mute);font-weight:400;">— so we can send your confirmation</span></label>
+            <input id="bEmail" name="email" type="email" placeholder="you@email.com" autocomplete="email">
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-bottom:10px;">Request this clean →</button>
+          <a href="#" id="waBookDirect" class="btn btn-wa btn-block">Or just book on WhatsApp</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How it works ─────────────────────────────────── -->
+<section class="section" id="how-it-works">
+  <div class="container">
+    <div class="sec-head center reveal">
+      <div class="eyebrow" style="justify-content:center;">How it works</div>
+      <h2 class="editorial">From "I need a clean"<br>to "wow, properly clean".</h2>
+      <p>Four steps. Sixty seconds to book. Same cleaner every time if you want her.</p>
+    </div>
+    <div class="grid-4" style="gap:24px;">
+      <div class="step-card reveal"><div class="num">1</div><h3>Pick a service</h3><p>Multiple cleaning services, sized to your specific preferences. Choose a combination of our cleaning services. Toggle add-on services that suite your needs.</p></div>
+      <div class="step-card reveal d1"><div class="num">2</div><h3>Match with a cleaner</h3><p>Our support team reaches out immediately to confirm your order. Your job card is created and you are matched with a nearby vetted cleaner. Get your bill and make payment into the escrow account.</p></div>
+      <div class="step-card reveal d2"><div class="num">3</div><h3>Get Live Update and Completion Notice</h3><p>Support team keeps updated on the progress of work to make sure you are satisfied with the outcome.</p></div>
+      <div class="step-card reveal d3"><div class="num">4</div><h3>Approve, then pay</h3><p>Inspection report when they finish. Approve to release payment from escrow.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Trust ────────────────────────────────────────── -->
+<section class="section" style="background:var(--bg);">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Why Flobb</div>
+      <h2 class="editorial">Trust, built in.<br>Not bolted on.</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6V12C4 17 7.5 21 12 22C16.5 21 20 17 20 12V6L12 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3 class="h3">Vetted &amp; insured</h3>
+        <p style="font-size:15px;line-height:1.55;margin:0;color:var(--ink-2);">ID verified, two references checked, in-person interview, ₦5m public liability cover. Every cleaner, before the first job.</p>
+      </div>
+      <div class="card reveal d1">
+        <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 10H21" stroke="currentColor" stroke-width="1.6"/><path d="M7 15H10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3 class="h3">Escrow protected</h3>
+        <p style="font-size:15px;line-height:1.55;margin:0;color:var(--ink-2);">Your deposit is held by Flobb — not the cleaner — until you approve the clean. If something's wrong, we hold funds and step in.</p>
+      </div>
+      <div class="card reveal d2">
+        <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="11" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M4 17L9 13L14 17L20 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3 class="h3">Inspection report</h3>
+        <p style="font-size:15px;line-height:1.55;margin:0;color:var(--ink-2);">Before and after photos, area by area. You see exactly what was done. We see what wasn't.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── B2B / Post-construction ─────────────────────── -->
+<section class="section" style="background:var(--ink);color:#fff;" id="b2b">
+  <div class="container">
+    <div class="sec-head reveal" style="max-width:660px;">
+      <div class="eyebrow on-dark">For Developers &amp; Corporates</div>
+      <h2 class="editorial" style="color:#fff;">Cleaning beyond<br>expectations.</h2>
+      <p style="color:rgba(255,255,255,.78);">We specialise in two engagements where the cost of poor service is highest: <strong style="color:#fff">post-construction deep cleaning</strong> — where handover condition reflects on a developer's reputation — and <strong style="color:#fff">janitorial retainer services</strong>, where ongoing quality determines whether a facility holds its standard.</p>
+    </div>
+    <div class="doc-cards">
+      <div class="doc-card reveal"><div class="doc-num">Document 01</div><h4>Daily Productivity Tracking Sheet</h4><ul><li>Each operative's assigned units, start time &amp; completion recorded daily</li><li>Quality pass/fail marked per unit by the supervisor — not self-reported</li><li>Daily summary: staff present, units completed, rework required</li><li>Supervisor-signed record issued every working day</li></ul></div>
+      <div class="doc-card reveal d1"><div class="doc-num">Document 02</div><h4>Unit Inspection Form</h4><ul><li>20+ inspection points: General, Restroom/Kitchen, Detailing, Site</li><li>Pass/fail recorded per item before a unit is marked complete</li><li>Defects logged separately — protecting your snagging record</li><li>Dual sign-off: Team Lead and Supervisor both sign every form</li></ul></div>
+      <div class="doc-card reveal d2"><div class="doc-num">Document 03</div><h4>Site Supervisor Checklist</h4><ul><li>Site condition and access documented before work begins each day</li><li>Equipment, materials &amp; PPE confirmed before the team starts</li><li>All seven cleaning categories verified complete per unit</li><li>Any incident or safety event recorded with corrective action</li></ul></div>
+    </div>
+    <div class="reveal" style="margin-top:40px;padding:28px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);">
+      <p style="font-size:15px;color:rgba(255,255,255,.8);line-height:1.65;margin:0;">
+        <strong style="color:#fff">At every handover</strong>, clients receive a complete documentation package: per-unit inspection forms signed by both team lead and supervisor, daily productivity records for the full project, a before-and-after photo record, and a defect log that separates pre-existing issues from cleaning-related observations.
+      </p>
+    </div>
+    <div style="margin-top:36px;display:flex;gap:16px;flex-wrap:wrap;">
+      <a href="#engage" class="btn btn-solid-light">Engage Flobb for your project</a>
+      <a href="#contact" class="btn btn-ghost-light">Speak to Jumoke</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── How to engage (B2B) ──────────────────────────── -->
+<section class="section" id="engage">
+  <div class="container">
+    <div class="sec-head center reveal">
+      <div class="eyebrow" style="justify-content:center;">For Developers &amp; Facilities</div>
+      <h2 class="editorial">How to engage us</h2>
+      <p>All engagements are formalised through a Scope of Work before any team is deployed.</p>
+    </div>
+    <div class="engage-steps">
+      <div class="engage-step reveal"><div class="step-circle">1</div><h4>Reach out</h4><p>Contact our CEO to discuss your project or facility requirements.</p></div>
+      <div class="engage-step reveal d1"><div class="step-circle">2</div><h4>Site consultation</h4><p>We visit, assess and document requirements on-site.</p></div>
+      <div class="engage-step reveal d2"><div class="step-circle">3</div><h4>Scope of Work</h4><p>Issued within 48 hours — confirming scope, team and timeline.</p></div>
+      <div class="engage-step reveal d3"><div class="step-circle">4</div><h4>Engagement begins</h4><p>Supervised, documented, delivered to the Flobb standard.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Track record ─────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Track record</div>
+      <h2 class="editorial">Work we are<br>proud of.</h2>
+      <p>Every engagement below was delivered under our full quality framework — supervision, daily documentation and formal inspection sign-off throughout.</p>
+    </div>
+    <div class="track-cards">
+      <div class="track-card reveal"><span class="type-badge">Janitorial Retainer</span><h4>Hamthel Holdings</h4><p>Ongoing janitorial retainer covering the Hamthel Holdings facility. Structured recurring cleaning under Flobb’s full supervision and documentation framework, with per-visit inspection records and monthly reporting.</p></div>
+      <div class="track-card reveal d1"><span class="type-badge">Post-Construction</span><h4>Hallam Homes</h4><p>Post-construction deep clean for the Hallam Homes residential development. Unit-by-unit inspection with signed forms, daily productivity reports throughout, and a full handover documentation package on completion.</p></div>
+      <div class="track-card reveal d2"><span class="type-badge">Post-Construction</span><h4>Shobo Homes</h4><p>Post-construction cleaning for the Shobo Homes project. Supervised team deployment with full daily tracking, per-unit inspection forms signed by the site supervisor, and a complete documentation package at project close.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ─────────────────────────────────────────── -->
+<section class="section" style="background:var(--bg);" id="faq">
+  <div class="container">
+    <div class="sec-head center reveal">
+      <div class="eyebrow" style="justify-content:center;">Got questions?</div>
+      <h2 class="editorial">We'll help you out.</h2>
+    </div>
+    <div class="faq">
+      <details class="reveal" open><summary>Is Flobb live yet? <span class="plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary><p>We're building and testing in Lagos right now. You can already request a clean and we'll coordinate it directly over our web platform, and cleaners can join the community and start the certification. The full app follows — join now to get early access.</p></details>
+      <details class="reveal"><summary>How does joining the community work? <span class="plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary><p>Fill in the short form above. We'll open our web platform with your details so you can send them to us in one tap, then add you to the Flobb Cleaning Community. Webinar is free while we build, and members get the certification course, checklists, booking access and early platform access.</p></details>
+      <details class="reveal"><summary>What does a clean cost? <span class="plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary><p>Cleaning cost is dependent on the combination of services selected and the size of your space. The support team walks you through every detail before confirmation</p></details>
+      <details class="reveal"><summary>How do I know the cleaner is trustworthy? <span class="plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary><p>Every Flobb cleaner is ID-verified, reference-checked and interviewed in person before their first job, and carries ₦5m public liability cover. You approve the clean against before/after photos, and your payment is held in escrow until you're happy.</p></details>
+      <details class="reveal"><summary>Do you handle offices and post-construction? <span class="plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary><p>Yes. Alongside home cleaning we run janitorial retainers and post-construction deep cleans for developers and facilities, with full supervision and a signed documentation package at handover. Use "Speak to Jumoke" to start a project conversation.</p></details>
+      <details class="reveal"><summary>Which areas of Lagos do you cover? <span class="plus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary><p>We're focused on Lagos to start — Lekki, Ikoyi, Victoria Island, Yaba, Ikeja, Surulere and nearby. Not sure about your area? Send a request anyway and we'll tell you honestly whether we can reach you.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ── App download ──────────────────────────────────── -->
+<section class="app-band section" id="download">
+  <div class="container">
+    <div class="grid-2" style="grid-template-columns:1.2fr 1fr;align-items:center;gap:56px;">
+      <div class="reveal">
+        <h2 class="bigtext" style="color:#fff;">The whole thing fits in your <em>phone</em>.</h2>
+        <p style="color:rgba(255,255,255,.78);font-size:18px;line-height:1.5;max-width:48ch;margin:22px 0 30px;">Book, track, message, pay and rate from one app. Cleaners manage jobs, training and payouts too. iOS and Android, free to download.</p>
+        <div class="app-badges">
+          <a href="javascript:void(0)" class="app-badge" style="cursor:default" title="Coming soon"><span class="glyph"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.05 12.97c-.03-2.83 2.31-4.18 2.41-4.25-1.31-1.91-3.36-2.18-4.09-2.21-1.74-.18-3.41 1.04-4.29 1.04-.9 0-2.25-1.02-3.7-.99-1.91.03-3.66 1.11-4.64 2.81-1.99 3.45-.51 8.55 1.41 11.36.94 1.37 2.06 2.91 3.51 2.86 1.41-.06 1.95-.91 3.66-.91s2.19.91 3.69.88c1.52-.03 2.49-1.4 3.42-2.77 1.08-1.59 1.52-3.13 1.55-3.21-.03-.01-2.97-1.14-3-4.51zM14.43 5.16c.77-.94 1.29-2.24 1.15-3.53-1.11.05-2.46.74-3.26 1.67-.71.82-1.34 2.15-1.17 3.42 1.24.1 2.5-.63 3.28-1.56z"/></svg></span><span class="text"><span class="top">Coming soon</span><span class="bot">App Store</span></span></a>
+          <a href="javascript:void(0)" class="app-badge" style="cursor:default" title="Coming soon"><span class="glyph"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M3.6 1.7C3.2 2.1 3 2.7 3 3.5v17c0 .8.2 1.4.6 1.8l.1.1L13.2 13v-.2L3.7 1.6l-.1.1zm12.9 12.1l-3.2-1.8 2.4-2.4 3.7 2.1c1 .6 1 1.5 0 2.1l-2.9 2zm-1.4.7l-2.3 2.3 2.3 2.3-9.3-5.4 9.3-5.4 2.3 2.3-2.3 2.3z"/></svg></span><span class="text"><span class="top">Coming soon</span><span class="bot">Google Play</span></span></a>
+        </div>
+        <p style="font-size:13px;color:rgba(255,255,255,.5);margin-top:22px;">Or text <strong style="color:#fff">FLOBB</strong> to our Whatsapp Line: +2349035516146. We'll reply right away</p>
+      </div>
+      <div style="text-align:center;" class="reveal d2">
+        <div style="width:200px;height:200px;background:#fff;border-radius:18px;margin:0 auto;padding:18px;display:flex;align-items:center;justify-content:center;">
+          <div style="width:100%;height:100%;background:repeating-conic-gradient(#0F1A36 0% 6.25%, #fff 0% 12.5%) 50% / 14px 14px;border-radius:8px;position:relative;">
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;">
+              <div style="width:24px;height:24px;border-radius:50%;background:#0F3A9B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">F</div>
+            </div>
+          </div>
+        </div>
+        <p style="color:rgba(255,255,255,.55);font-size:13px;margin-top:14px;">Scan to download</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact ──────────────────────────────────────── -->
+<section class="contact-bar" id="contact">
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="container">
+    <h3>Let's talk about your project</h3>
+    <p>Whether you're a developer approaching handover, or a corporate facility needing a dependable partner.</p>
+    <div class="contact-details">
+      <div class="contact-item"><span class="label">CEO</span><span class="value">Jumoke Benjamin-Henry</span></div>
+      <div class="contact-item"><span class="label">Email</span><span class="value"><a href="mailto:flobbcleaning@gmail.com">flobbcleaning@gmail.com</a></span></div>
+      <div class="contact-item"><span class="label">Address</span><span class="value">26 Admiralty Way, Lekki Phase 1, Lagos</span></div>
+    </div>
+    <div style="margin-top:30px;"><a href="mailto:flobbcleaning@gmail.com" class="btn btn-solid-light">Get in touch</a></div>
+  </div>
+</section>
+
+<!-- ── Footer ───────────────────────────────────────── -->
+<footer class="site-footer" id="about">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="brand-wordmark">Flobb<span style="color:var(--green-bright)">.</span></span>
+        <p>Vetted cleaners across Lagos, and a community helping cleaners build real careers. Homes, offices, post-construction and janitorial.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.81.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.81-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.81-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.81.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07c-1.28.06-2.15.26-2.91.55-.79.31-1.46.72-2.13 1.39C1.34 2.68.93 3.35.62 4.14c-.29.76-.49 1.63-.55 2.91C0 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.28.26 2.15.55 2.91.31.79.72 1.46 1.39 2.13.67.67 1.34 1.08 2.13 1.39.76.29 1.63.49 2.91.55C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.28-.06 2.15-.26 2.91-.55.79-.31 1.46-.72 2.13-1.39.67-.67 1.08-1.34 1.39-2.13.29-.76.49-1.63.55-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.28-.26-2.15-.55-2.91-.31-.79-.72-1.46-1.39-2.13C21.32 1.34 20.65.93 19.86.62c-.76-.29-1.63-.49-2.91-.55C15.67.01 15.26 0 12 0zm0 5.84c-3.4 0-6.16 2.76-6.16 6.16s2.76 6.16 6.16 6.16 6.16-2.76 6.16-6.16S15.4 5.84 12 5.84zm0 10.16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm6.41-11.85c-.8 0-1.44.65-1.44 1.44s.65 1.44 1.44 1.44 1.44-.65 1.44-1.44-.65-1.44-1.44-1.44z"/></svg></a>
+          <a href="#" aria-label="Twitter"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="#" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.515 5.276l-.999 3.648 3.973-1.042v.419z"/></svg></a>
+        </div>
+      </div>
+      <div><h4>For clients</h4><ul><li><a href="#services">Services</a></li><li><a href="#promos">Promos</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#book">Book a clean</a></li></ul></div>
+      <div><h4>For cleaners</h4><ul><li><a href="flobb-community.html">Join the community</a></li><li><a href="flobb-community.html">Certification</a></li><li><a href="flobb-community.html">Checklists</a></li></ul></div>
+      <div><h4>Business</h4><ul><li><a href="#b2b">Post-construction</a></li><li><a href="#engage">Janitorial retainer</a></li><li><a href="#contact">Get a quote</a></li></ul></div>
+      <div><h4>Reach us</h4><ul><li><a href="mailto:flobbcleaning@gmail.com">flobbcleaning@gmail.com</a></li><li>26 Admiralty Way,<br>Lekki Phase 1, Lagos.</li><li style="margin-top:8px;font-size:13px;color:rgba(255,255,255,.45);">CEO: Jumoke Benjamin-Henry</li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Flobb Cleaning Services. All rights reserved.</div>
+      <div class="legal-row"><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Cookies</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- Request-received confirmation -->
+<div class="req-modal-bg" id="reqModal" aria-hidden="true">
+  <div class="req-modal" role="dialog" aria-modal="true">
+    <div class="req-check">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h3>Request received!</h3>
+    <p>Thank you — we've logged your request. Our support team will <strong>contact you shortly</strong> with your <strong>job card</strong> and the <strong>cost of service</strong>. No payment until everything is confirmed with you.</p>
+    <p class="req-note">📧 A confirmation email is on its way. Prefer to reach us now? Use the options below.</p>
+    <a href="#" id="reqWaBtn" class="btn btn-wa btn-lg btn-block">Chat with support on WhatsApp →</a>
+    <a href="#" id="reqEmailBtn" class="btn btn-secondary btn-block" style="margin-top:8px">✉ Email support</a>
+    <button type="button" class="req-dismiss" onclick="closeReqModal()">Done — I'll wait to hear from you</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="t-dot"></span><span id="toastMsg">Opening WhatsApp…</span></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   FLOBB CONFIG  —  👋 EDIT THESE TWO LINES
+   1) whatsappNumber: your Flobb WhatsApp business number, country code, no +, no spaces.
+      Nigeria example: 234 then the number without the leading 0  →  2348012345678
+   2) communityLink: your WhatsApp group/community invite link (chat.whatsapp.com/XXXX)
+   ═══════════════════════════════════════════════════════════════ */
+const FLOBB = {
+  whatsappNumber: "2349035516146",                       // Flobb WhatsApp (234 + number without leading 0)
+  communityLink: "https://chat.whatsapp.com/IJdsrcVSLzP6Oi8XeiO9zY", // ← replace with your invite link
+  supportEmail: "flobbcleaning@gmail.com",                // support email (clients can reach out)
+  mailUrl: "https://script.google.com/macros/s/AKfycbzIkFOUGIr7WP5hjpHyBQwEZjz5pT0jEfrvdg2Gbc3R0fsmJl5Ufl-biehWedPM7MinTg/exec"       // ← flobb_ops_mailer.gs /exec URL (sends the confirmation email)
+};
+
+/* Supabase — bookings are recorded here so they show in the Operations Hub. */
+const SB_URL = "https://mncjtcfnkaqzycnkmbgp.supabase.co";
+const SB_KEY = "sb_publishable_pG-u3hf1nO33uSjU1xzTdg_dQRWLtDF";
+let _sb = null;
+try { _sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null; }
+catch(e){ console.warn("Supabase init failed", e); }
+
+const waLink = (msg) => "https://wa.me/" + FLOBB.whatsappNumber + "?text=" + encodeURIComponent(msg);
+
+/* Toast helper */
+const toast = document.getElementById('toast');
+const toastMsg = document.getElementById('toastMsg');
+function showToast(text){
+  toastMsg.textContent = text;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'), 3200);
+}
+
+/* Mobile menu */
+const navToggle = document.getElementById('navToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+navToggle.addEventListener('click', ()=>{
+  const open = mobileMenu.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', open);
+});
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
+  mobileMenu.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', false);
+}));
+
+/* Community sign-up now lives on flobb-community.html (dedicated page). */
+
+/* "Other" area → reveal a free-text field */
+function toggleOtherArea(){
+  const other = document.getElementById('bAreaOther');
+  const show = document.getElementById('bArea').value === 'Other';
+  other.style.display = show ? '' : 'none';
+  if(show) other.focus();
+}
+
+/* Confirmation modal helpers */
+const reqModal = document.getElementById('reqModal');
+function showReqModal(waUrl, mailtoUrl){
+  const btn = document.getElementById('reqWaBtn');
+  btn.onclick = (e)=>{ e.preventDefault(); window.open(waUrl, "_blank", "noopener"); closeReqModal(); };
+  const eb = document.getElementById('reqEmailBtn');
+  if(eb){ eb.onclick = (e)=>{ e.preventDefault(); window.location.href = mailtoUrl; }; }
+  reqModal.classList.add('open'); reqModal.setAttribute('aria-hidden','false');
+}
+function closeReqModal(){ reqModal.classList.remove('open'); reqModal.setAttribute('aria-hidden','true'); }
+reqModal.addEventListener('click', (e)=>{ if(e.target === reqModal) closeReqModal(); });
+
+/* Reset the booking form + builder selection after a submit */
+function resetBookingForm(){
+  const f = document.getElementById('bookForm');
+  f.reset();
+  const other = document.getElementById('bAreaOther'); if(other) other.style.display = 'none';
+  __currentBundle = null;
+  document.querySelectorAll('.svc-pick').forEach(li=>{
+    const c = li.querySelector('.pick-check'); if(c && c.checked){ c.checked = false; li.classList.remove('on'); }
+    const q = li.querySelector('.qnum'); if(q) q.value = 1;
+    const ps = li.querySelector('.psel'); if(ps) ps.selectedIndex = 0;
+  });
+  flobbSync();
+}
+
+/* Booking form → save + confirm + WhatsApp */
+let __submitting = false;
+function submitBooking(direct){
+  if(__submitting) return;            // guard against double submission
+  __submitting = true;
+  const btns = [document.querySelector('#bookForm button[type="submit"]'), document.getElementById('waBookDirect')];
+  btns.forEach(b => { if(b) b.style.pointerEvents = 'none'; });
+  const unlock = () => { __submitting = false; btns.forEach(b => { if(b) b.style.pointerEvents = ''; }); };
+  const f = document.getElementById('bookForm');
+
+  // Area and preferred date are compulsory
+  let area = f.area.value;
+  if(area === 'Other'){ area = (document.getElementById('bAreaOther').value.trim()) || ''; }
+  if(!area){ showToast("Please choose your area"); (f.area.value==='Other'?document.getElementById('bAreaOther'):document.getElementById('bArea')).focus(); unlock(); return; }
+  if(!f.date.value){ showToast("Please choose a preferred date"); document.getElementById('bDate').focus(); unlock(); return; }
+
+  const selection = (document.getElementById('bSelection').value || "").trim() || "(none selected — please advise)";
+  const size = f.size.value;
+  const date = f.date.value;
+  const name = f.name.value.trim() || "—";
+  const phone = f.phone.value.trim() || "—";
+  const email = document.getElementById('bEmail').value.trim();
+  const addons = Array.from(f.querySelectorAll('input[name="addon"]:checked')).map(a=>a.value);
+  const msg =
+    "🧹 *Flobb — Cleaning request*\n" +
+    "Services: " + selection + "\n" +
+    "Area: " + area + "\n" +
+    "Home size: " + size + "\n" +
+    "Date: " + date + "\n" +
+    "Add-ons: " + (addons.length ? addons.join(", ") : "None") + "\n" +
+    "Name: " + name + "\n" +
+    "WhatsApp: " + phone + (email ? "\nEmail: " + email : "") + "\n\n" +
+    "Please confirm a vetted cleaner, price and time.";
+
+  // Record the booking so it shows for the admin in the Operations Hub.
+  if (_sb) {
+    const bundleMatch = selection.match(/Bundle:\s*([^\[\|]+)/);
+    _sb.from("flobb_bookings").insert([{
+      customer_name:  name === "—" ? null : name,
+      customer_phone: phone === "—" ? null : phone,
+      customer_email: email || null,
+      area:           area,
+      home_size:      size,
+      preferred_date: f.date.value || null,
+      selection:      document.getElementById('bSelection').value || null,
+      addons:         addons,
+      bundle:         bundleMatch ? bundleMatch[1].trim() : null,
+      source:         "website"
+    }]).then(({ error }) => { if (error) console.warn("Booking not saved:", error.message); });
+  }
+
+  // Send the client an instant acknowledgement email (support will follow with job card + cost)
+  if (email && FLOBB.mailUrl && !/PASTE_YOUR/.test(FLOBB.mailUrl)) {
+    fetch(FLOBB.mailUrl, {
+      method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        kind: "ack", to: email, name: (name === "—" ? "there" : name),
+        area: area, home_size: size, preferred_date: date,
+        selection: document.getElementById('bSelection').value || "", addons: addons
+      })
+    }).catch(err => console.warn("Ack email not sent:", err));
+  }
+
+  // "Email support" link for the modal
+  const mailto = "mailto:" + FLOBB.supportEmail +
+    "?subject=" + encodeURIComponent("Flobb request — " + (name === "—" ? "" : name)) +
+    "&body=" + encodeURIComponent("Hi Flobb support,\n\nI just submitted a cleaning request:\n" +
+      "Services: " + selection + "\nArea: " + area + "\nDate: " + date +
+      (phone !== "—" ? "\nWhatsApp: " + phone : "") + "\n\nPlease get back to me with my job card and the cost. Thank you.");
+
+  const waUrl = waLink(msg);
+  if (direct) {
+    showToast("Opening WhatsApp — send the message to request");
+    window.open(waUrl, "_blank", "noopener");
+  } else {
+    showReqModal(waUrl, mailto);   // confirmation first; WhatsApp/email open from the modal buttons
+  }
+  resetBookingForm();      // clear the form so it can't be re-sent by mistake
+  unlock();
+}
+document.getElementById('bookForm').addEventListener('submit', function(e){ e.preventDefault(); submitBooking(false); });
+document.getElementById('waBookDirect').addEventListener('click', function(e){ e.preventDefault(); submitBooking(true); });
+
+/* ===== Build-your-clean service builder (re-bindable for live data) ===== */
+const __SIZES = ['Small','Medium','Large'];
+let __currentBundle = null;
+function __esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+function __lineFor(li){
+  const name = li.dataset.svc.replace(/&amp;/g,'&'), unit = li.dataset.unit;
+  if(unit==='qty'){ const n = li.querySelector('.qnum').value; return name+' \u00d7 '+n+' '+(li.dataset.unitlabel||''); }
+  if(unit==='size'){ return name+' ('+li.querySelector('.psel').value+')'; }
+  if(unit==='fixed'){ return name+(li.dataset.price?' \u2014 '+li.dataset.price:''); }
+  if(unit==='request'){ return name+' (on request)'; }
+  return name;
+}
+function flobbSync(){
+  const picks = document.querySelectorAll('.svc-pick');
+  const lines = [];
+  picks.forEach(li=>{ const c=li.querySelector('.pick-check'); if(c && c.checked) lines.push(__lineFor(li)); });
+  const parts = []; let html = '';
+  if(__currentBundle){
+    html += '<div class="sel-item sel-bundle"><span>\ud83d\udce6 '+__esc(__currentBundle.name)+' bundle</span></div>';
+    html += '<div class="sel-sub">Includes: '+__esc(__currentBundle.items.join(', '))+'. Add any extras below.</div>';
+    parts.push('Bundle: '+__currentBundle.name+' ['+__currentBundle.items.join(' + ')+']');
+  }
+  lines.forEach(l=>{ html += '<div class="sel-item"><span>\u2022 '+__esc(l)+'</span></div>'; parts.push(l); });
+  if(!parts.length){ html = '<div class="sel-empty">No services selected yet \u2014 pick services in <a href="#services" style="color:var(--navy);font-weight:600;">Build your clean</a> above.</div>'; }
+  const selBox = document.getElementById('selSummary'); if(selBox) selBox.innerHTML = html;
+  const selField = document.getElementById('bSelection'); if(selField) selField.value = parts.join(' | ');
+  const n = (__currentBundle?1:0)+lines.length;
+  const bbCount = document.getElementById('bbCount'); if(bbCount) bbCount.innerHTML = '<strong>'+n+'</strong> '+(n===1?'service':'services')+' selected';
+}
+window.__flobbSync = flobbSync;
+
+function bindBuilder(){
+  document.querySelectorAll('.svc-pick').forEach(li=>{
+    if(li.dataset.bound) return; li.dataset.bound = '1';
+    const unit = li.dataset.unit;
+    const ctrl = li.querySelector('.pick-ctrl');
+    if(unit==='qty' && ctrl){
+      ctrl.innerHTML = '<span class="qstep"><button type="button" class="qminus" aria-label="less">\u2212</button>'
+        + '<input type="number" class="qnum" min="1" value="1" inputmode="numeric"><button type="button" class="qplus" aria-label="more">+</button></span>'
+        + '<span class="qunit">'+(li.dataset.unitlabel||'')+'</span>';
+    } else if(unit==='size' && ctrl){
+      ctrl.innerHTML = '<select class="psel">'+__SIZES.map(s=>'<option>'+s+'</option>').join('')+'</select>';
+    }
+    const chk = li.querySelector('.pick-check');
+    chk.addEventListener('change', ()=>{ li.classList.toggle('on', chk.checked); flobbSync(); });
+    if(ctrl){
+      ctrl.addEventListener('input', flobbSync);
+      ctrl.addEventListener('change', flobbSync);
+      ctrl.addEventListener('click', e=>{
+        const n = ctrl.querySelector('.qnum'); if(!n) return;
+        if(e.target.classList.contains('qplus')){ n.value = (parseInt(n.value||'1',10)+1); flobbSync(); }
+        if(e.target.classList.contains('qminus')){ n.value = Math.max(1,(parseInt(n.value||'1',10)-1)); flobbSync(); }
+      });
+    }
+  });
+  document.querySelectorAll('[data-bundle]').forEach(b=>{
+    if(b.dataset.bound) return; b.dataset.bound = '1';
+    b.addEventListener('click', e=>{
+      e.preventDefault();
+      __currentBundle = { name: b.dataset.bundle, items: (b.dataset.items||'').replace(/&amp;/g,'&').split('|') };
+      flobbSync();
+      document.getElementById('book').scrollIntoView({behavior:'smooth'});
+    });
+  });
+}
+
+document.getElementById('selClear')?.addEventListener('click', ()=>{
+  __currentBundle = null;
+  document.querySelectorAll('.svc-pick').forEach(li=>{ const c=li.querySelector('.pick-check'); if(c && c.checked){ c.checked=false; li.classList.remove('on'); } });
+  flobbSync();
+});
+
+bindBuilder();
+flobbSync();
+
+/* ===== Live prices & campaigns from Supabase (fallback = built-in content) ===== */
+const CAT_SUBS = {
+  'Core home cleaning':'The everyday & one-off cleans',
+  'Fabrics & upholstery':'Sofas, rugs, mattresses & drapes',
+  'Kitchen & appliances':'Degrease, descale, deep clean',
+  'Bathroom':'Tiles, grout & hard water',
+  'Water & outdoor':'Tanks, glass & compounds',
+  'Specialist':'Add-ons & expert jobs'
+};
+function nairaFmt(n){ return '\u20a6' + Number(n).toLocaleString('en-NG'); }
+function shortDur(d){ return d ? String(d).replace(/\s*hours?/i,'h').replace(/\s+/g,'') : ''; }
+function pluralUnit(label){
+  let w = String(label||'').replace(/^per\s+/i,'').trim();
+  if(!w) return 'units';
+  return /s$/i.test(w) ? w : w + 's';
+}
+function darken(hex, f){
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex||'#0F3A9B');
+  if(!m) return hex;
+  const d = x => Math.max(0, Math.round(parseInt(x,16)*(1-f))).toString(16).padStart(2,'0');
+  return '#'+d(m[1])+d(m[2])+d(m[3]);
+}
+function svcLi(s){
+  const nm = __esc(s.name), unit = s.price_type;
+  let right='', data='';
+  if(unit==='fixed'){
+    const price = nairaFmt(s.base_price) + (s.duration ? ' \u00b7 '+shortDur(s.duration) : '');
+    right = '<span class="pick-unit pick-price">'+__esc(price)+'</span>';
+    data  = ' data-unit="fixed" data-price="'+__esc(price)+'"';
+  } else if(unit==='request' || (unit!=='qty' && unit!=='size' && s.base_price==null)){
+    right = '<span class="pick-unit">on request</span>';
+    data  = ' data-unit="request"';
+  } else if(unit==='qty'){
+    right = '<span class="pick-unit">'+__esc(s.unit_label||'per unit')+'</span><span class="pick-ctrl"></span>';
+    data  = ' data-unit="qty" data-unitlabel="'+__esc(pluralUnit(s.unit_label))+'"';
+  } else {
+    right = '<span class="pick-unit">'+__esc(s.unit_label||'by size')+'</span><span class="pick-ctrl"></span>';
+    data  = ' data-unit="size"';
+  }
+  return '<li class="svc-pick"'+data+' data-svc="'+nm+'">'
+    + '<label class="pick-main"><input type="checkbox" class="pick-check"><span class="pick-name">'+nm+'</span></label>'
+    + '<span class="pick-right">'+right+'</span></li>';
+}
+function renderServiceMenu(services){
+  const host = document.querySelector('.svc-cats'); if(!host) return;
+  const order = [], map = {};
+  services.forEach(s=>{ if(!map[s.category]){ map[s.category]=[]; order.push(s.category); } map[s.category].push(s); });
+  host.innerHTML = order.map(cat=>{
+    const sub = CAT_SUBS[cat] || '';
+    return '<div class="svc-cat reveal in"><h4>'+__esc(cat)+'</h4>'
+      + (sub?'<div class="cat-sub">'+__esc(sub)+'</div>':'')
+      + '<ul>'+map[cat].map(svcLi).join('')+'</ul></div>';
+  }).join('');
+  bindBuilder();
+}
+function campaignCard(c){
+  const items = Array.isArray(c.items) ? c.items : [];
+  const chips = items.map(i=>'<span>'+__esc(i)+'</span>').join('');
+  const accent = c.accent || '#0F3A9B';
+  const grad = 'linear-gradient(160deg,'+accent+','+darken(accent,0.35)+')';
+  return '<div class="bundle reveal in" style="background:'+grad+';" data-service="'+__esc(c.title)+'">'
+    + '<div class="aurora" aria-hidden="true"></div>'
+    + (c.badge?'<span class="bundle-badge">'+__esc(c.badge)+'</span>':'')
+    + '<h3>'+__esc(c.title)+'</h3>'
+    + (c.subtitle?'<p>'+__esc(c.subtitle)+'</p>':'')
+    + '<div class="b-items">'+chips+'</div>'
+    + '<a href="#book" class="btn btn-solid-light" data-bundle="'+__esc(c.title)+'" data-items="'+__esc(items.join('|'))+'">Book this bundle \u2192</a>'
+    + '</div>';
+}
+function renderCampaignCards(campaigns){
+  const host = document.querySelector('.bundle-grid'); if(!host) return;
+  host.innerHTML = campaigns.map(campaignCard).join('');
+  bindBuilder();
+}
+(async function loadLiveCatalog(){
+  if(!_sb) return;
+  // Don't wipe a selection already in progress.
+  const inUse = document.querySelector('.svc-pick .pick-check:checked');
+  try {
+    const [svc, camp] = await Promise.all([
+      _sb.from('flobb_services').select('*').eq('active', true).order('category').order('sort_order'),
+      _sb.from('flobb_campaigns').select('*').eq('active', true).order('sort_order')
+    ]);
+    if(!inUse && svc.data && svc.data.length) renderServiceMenu(svc.data);
+    if(camp.data && camp.data.length) renderCampaignCards(camp.data);
+  } catch(e){ console.warn('Live catalog unavailable \u2014 using built-in menu.', e); }
+})();
+
+/* Hero picture slider */
+(function(){
+  const slides = Array.from(document.querySelectorAll('.hs-slide'));
+  const dotsEl = document.getElementById('hsDots');
+  if(slides.length < 2 || !dotsEl) return;
+  let i = 0;
+  slides.forEach((s, idx) => { const d = document.createElement('span'); d.className = 'hs-dot' + (idx===0?' on':''); d.addEventListener('click', ()=>go(idx)); dotsEl.appendChild(d); });
+  const dots = Array.from(dotsEl.children);
+  function go(n){ slides[i].classList.remove('on'); dots[i].classList.remove('on'); i = n; slides[i].classList.add('on'); dots[i].classList.add('on'); }
+  let timer = setInterval(()=>go((i+1)%slides.length), 3800);
+})();
+
+/* Scroll reveal */
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!prefersReduced && 'IntersectionObserver' in window){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+}
+</script>
+</body>
+</html>

@@ -1256,6 +1256,28 @@ tbody td{padding:11px 16px;color:var(--ink);vertical-align:middle}
 <!-- ═══════════════════════════════════════════ -->
 <!-- ADD SUPERVISOR MODAL -->
 <!-- ═══════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════ -->
+<!-- CLEANER: KYC GATE (full-screen, not dismissible) -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="kycGate" style="display:none;position:fixed;inset:0;z-index:4000;background:linear-gradient(180deg,#0f2742,#0a1a2e);overflow-y:auto;padding:28px 16px">
+  <div style="max-width:720px;margin:0 auto">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+      <div style="width:40px;height:40px;border-radius:8px;overflow:hidden;background:#fff;flex-shrink:0"><img src="Flobb.jpeg" alt="Flobb" style="width:100%;height:100%;object-fit:contain"></div>
+      <div style="flex:1;color:#fff">
+        <div style="font-weight:800;font-size:16px">Flobb <em style="color:#4fd1c5;font-style:normal">Cleaning Service</em></div>
+        <div style="font-size:12px;color:#9fb3c8" id="kycGateWho">Cleaner verification</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" style="color:#fff;border-color:rgba(255,255,255,.25)" onclick="doLogout()">Sign out</button>
+    </div>
+    <div class="card" style="overflow:hidden">
+      <div id="kycGateBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- ADD SUPERVISOR MODAL -->
+<!-- ═══════════════════════════════════════════ -->
 <div class="modal-bg" id="addSupervisorModal">
   <div class="modal modal-md">
     <div class="modal-head">
@@ -1381,6 +1403,25 @@ tbody td{padding:11px 16px;color:var(--ink);vertical-align:middle}
       <button class="btn btn-ghost" onclick="closeModal('editSupervisorModal')">Cancel</button>
       <button class="btn btn-teal" onclick="saveEditSupervisor()">Save Changes</button>
     </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- ADMIN: KYC REVIEW MODAL -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="modal-bg" id="kycReviewModal">
+  <div class="modal modal-md">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="kycRevTitle">KYC verification</div>
+        <div class="modal-sub" id="kycRevSub">Review the cleaner's details before approving</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('kycReviewModal')">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="kycRevBody" style="display:flex;flex-direction:column;gap:14px"></div>
+    <div class="modal-foot" id="kycRevFoot"></div>
   </div>
 </div>
 
@@ -1555,7 +1596,8 @@ try {
 // APP STATE
 // ════════════════════════════════════════════════
 let SESSION = null; // { id, name, email, role }
-let DB = { jobs: [], users: [], photos: {}, bookings: [], services: [], campaigns: [] };
+let DB = { jobs: [], users: [], photos: {}, bookings: [], services: [], campaigns: [], kyc: {} };
+let MY_KYC = null;  // signed-in cleaner's own KYC record (if any)
 let SETTINGS = { account: { bank_name:'', account_number:'', account_name:'', note:'' }, payout: { cleaner_share_pct: 60 } };
 let _currentJob = null;
 let _jobFilter = 'all';
@@ -1805,7 +1847,9 @@ async function doLogout(){
   const banner = document.getElementById('timeoutBanner');
   if(banner) banner.style.display = 'none';
   await _sb.auth.signOut();
-  SESSION = null;
+  SESSION = null; MY_KYC = null;
+  const gate = document.getElementById('kycGate'); if(gate) gate.style.display = 'none';
+  document.body.style.overflow = '';
   document.getElementById('appShell').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
   // Reset login button
@@ -1841,6 +1885,10 @@ async function loadSession(user){
   }
   await loadDB();
   renderAll();
+  // Cleaners must complete KYC before they can be assigned bookings.
+  if(SESSION.role !== 'admin' && SESSION.kycStatus !== 'verified'){
+    showCleanerKyc();
+  }
 }
 
 // ════════════════════════════════════════════════
@@ -1851,7 +1899,8 @@ async function loadDB(){
   const { data: users } = await _sb.from('flobb_users').select('*');
   DB.users = (users || []).map(u => ({
     id: u.id, name: u.name, email: u.email,
-    role: u.role, phone: u.phone || ''
+    role: u.role, phone: u.phone || '',
+    kycStatus: u.kyc_status || (u.role === 'admin' ? 'verified' : 'pending')
   }));
 
   // Load jobs
@@ -1886,6 +1935,18 @@ async function loadDB(){
   if(SESSION.role === 'admin'){
     const { data: bookings } = await _sb.from('flobb_bookings').select('*').order('created_at', { ascending: false });
     DB.bookings = bookings || [];
+  }
+
+  // KYC records. Admin reads all (for review); a cleaner reads only their own.
+  DB.kyc = {};
+  MY_KYC = null;
+  const { data: kyc } = await _sb.from('flobb_kyc').select('*');
+  (kyc || []).forEach(k => { DB.kyc[k.user_id] = k; });
+  if(SESSION.role !== 'admin'){
+    MY_KYC = DB.kyc[SESSION.id] || null;
+    // keep the session's own status in sync with the users table
+    const me = DB.users.find(u => u.id === SESSION.id);
+    SESSION.kycStatus = me ? me.kycStatus : (MY_KYC ? 'submitted' : 'pending');
   }
 }
 
@@ -2017,6 +2078,8 @@ function renderSupervisors(){
   grid.innerHTML = sups.map(u => {
     const assignedJobs = DB.jobs.filter(j => j.supervisorId === u.id);
     const activeJobs   = assignedJobs.filter(j => j.status === 'active').length;
+    const k = kycInfo(u.kycStatus);
+    const hasRecord = !!DB.kyc[u.id];
     return `
       <div class="user-card">
         <div class="user-card-top">
@@ -2032,15 +2095,30 @@ function renderSupervisors(){
           ${u.phone ? `<span>📞 ${u.phone}</span>` : ''}
           <span style="margin-top:6px;color:var(--teal);font-weight:600">${assignedJobs.length} job${assignedJobs.length!==1?'s':''} assigned · ${activeJobs} active</span>
         </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-light)">
+          <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:${k.bg};color:${k.fg}">${k.dot} KYC: ${k.label}</span>
+          <button class="btn ${hasRecord ? 'btn-teal' : 'btn-ghost'} btn-sm" ${hasRecord ? '' : 'disabled style="opacity:.5;pointer-events:none"'} onclick="openKycReview('${u.id}')">Review KYC</button>
+        </div>
       </div>`;
   }).join('');
+}
+function kycInfo(status){
+  switch(status){
+    case 'verified':  return { label:'Verified',  fg:'#0b6b4f', bg:'#d8f3e8', dot:'✓' };
+    case 'submitted': return { label:'In review',  fg:'#8a5a00', bg:'#fdeecd', dot:'⏳' };
+    case 'rejected':  return { label:'Rejected',   fg:'#9a1b3a', bg:'#fbdbe3', dot:'✕' };
+    default:          return { label:'Not started',fg:'#6b7280', bg:'#eceef1', dot:'•' };
+  }
 }
 
 function populateSupervisorDropdown(){
   const sel = document.getElementById('cj_supervisor');
   const sups = DB.users.filter(u => u.role !== 'admin');
-  sel.innerHTML = '<option value="">— Select supervisor —</option>' +
-    sups.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+  sel.innerHTML = '<option value="">— Select cleaner —</option>' +
+    sups.map(u => {
+      const verified = u.kycStatus === 'verified';
+      return `<option value="${u.id}" ${verified?'':'disabled'}>${u.name}${verified?'':' — KYC pending'}</option>`;
+    }).join('');
 }
 
 function updateBadges(){
@@ -3414,6 +3492,256 @@ function startWarningCountdown(){
 // BOOKINGS / PRICING / CAMPAIGNS
 // ════════════════════════════════════════════════
 function _esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function _attr(s){ return _esc(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+// ════════════════════════════════════════════════
+// CLEANER KYC  (verification before a cleaner can get bookings)
+// ════════════════════════════════════════════════
+const KYC_ID_TYPES = ['NIN (National ID Number)','National ID card','Driver’s licence','International passport','Voter’s card'];
+
+function firstName(){ return (SESSION && SESSION.name ? SESSION.name.split(' ')[0] : 'there'); }
+
+function showCleanerKyc(){
+  const gate = document.getElementById('kycGate');
+  document.getElementById('kycGateWho').textContent = (SESSION.name || 'Cleaner') + ' · verification required';
+  gate.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  kycGateRender();
+}
+function hideCleanerKyc(){
+  const gate = document.getElementById('kycGate');
+  if(gate) gate.style.display = 'none';
+  document.body.style.overflow = '';
+}
+function kycGateRender(){
+  const body = document.getElementById('kycGateBody');
+  if(SESSION.kycStatus === 'submitted'){ body.innerHTML = kycPendingView(); }
+  else { body.innerHTML = kycFormView(SESSION.kycStatus === 'rejected'); }
+}
+function kycPendingView(){
+  return `
+    <div style="padding:34px 26px;text-align:center">
+      <div style="font-size:44px;margin-bottom:12px">⏳</div>
+      <div style="font-size:19px;font-weight:800;color:var(--ink);margin-bottom:8px">Verification in review</div>
+      <p style="color:var(--slate);font-size:14px;line-height:1.7;max-width:460px;margin:0 auto 20px">
+        Thanks, ${_esc(firstName())}. Your details are with the Flobb team. Once an admin verifies your KYC you'll start receiving job assignments.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-teal" onclick="refreshKycStatus()">Check verification status</button>
+        <button class="btn btn-ghost" onclick="editKycAgain()">Edit my details</button>
+      </div>
+    </div>`;
+}
+function editKycAgain(){
+  document.getElementById('kycGateBody').innerHTML = kycFormView(SESSION.kycStatus === 'rejected');
+}
+async function refreshKycStatus(){
+  await loadDB();
+  if(SESSION.kycStatus === 'verified'){ hideCleanerKyc(); renderAll(); toast('You are verified — welcome aboard!','success'); return; }
+  kycGateRender();
+  if(SESSION.kycStatus !== 'rejected') toast('Still in review — we will notify you once verified.','info');
+}
+function kycFormView(rejected){
+  const k = MY_KYC || {};
+  const idOpts = KYC_ID_TYPES.map(t => `<option value="${_attr(t)}" ${k.id_type===t?'selected':''}>${_esc(t)}</option>`).join('');
+  const idLink = k.id_photo_url ? `<div style="font-size:12px;margin-top:6px"><a href="${_attr(k.id_photo_url)}" target="_blank" rel="noopener" style="color:var(--teal);font-weight:600">View current upload ↗</a> — upload a new file to replace it.</div>` : '';
+  return `
+    <div style="padding:22px 24px">
+      ${rejected ? `<div style="background:var(--rose-pale,#fbdbe3);border:1px solid #f3b6c3;color:#9a1b3a;padding:12px 14px;border-radius:10px;font-size:13.5px;margin-bottom:16px">
+        <strong>Your previous submission needs changes.</strong>${k.admin_note ? '<br>Note from Flobb: '+_esc(k.admin_note) : ''}<br>Please review and resubmit.</div>` : `
+        <p style="color:var(--slate);font-size:14px;line-height:1.7;margin:0 0 16px">
+        Welcome, ${_esc(firstName())}. Before you can receive jobs, please complete your verification. This keeps every client and cleaner on Flobb safe. All fields marked <span style="color:#C0394F">*</span> are required.</p>`}
+
+      <div style="font-weight:800;font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:var(--teal);margin:4px 0 12px">1 · Your details</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 14px">
+        <div class="form-group" style="margin:0"><label class="form-label">Full name <span style="color:#C0394F">*</span></label><input id="kyc_fullname" class="form-input" value="${_attr(k.full_name || SESSION.name || '')}" placeholder="As on your ID"></div>
+        <div class="form-group" style="margin:0"><label class="form-label">Date of birth <span style="color:#C0394F">*</span></label><input id="kyc_dob" type="date" class="form-input" value="${_attr(k.dob || '')}"></div>
+        <div class="form-group" style="margin:0;grid-column:1/-1"><label class="form-label">Residential address <span style="color:#C0394F">*</span></label><input id="kyc_address" class="form-input" value="${_attr(k.address || '')}" placeholder="Street, area, city"></div>
+      </div>
+
+      <div style="font-weight:800;font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:var(--teal);margin:20px 0 12px">2 · Means of identification</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 14px">
+        <div class="form-group" style="margin:0"><label class="form-label">ID type <span style="color:#C0394F">*</span></label><select id="kyc_id_type" class="form-input"><option value="">— Select —</option>${idOpts}</select></div>
+        <div class="form-group" style="margin:0"><label class="form-label">ID number <span style="color:#C0394F">*</span></label><input id="kyc_id_number" class="form-input" value="${_attr(k.id_number || '')}" placeholder="Number on the document"></div>
+        <div class="form-group" style="margin:0;grid-column:1/-1"><label class="form-label">Upload ID (photo or scan) ${k.id_photo_url ? '' : '<span style="color:#C0394F">*</span>'}</label><input id="kyc_id_file" type="file" class="form-input" accept="image/*,.pdf" style="padding:8px">${idLink}</div>
+      </div>
+
+      <div style="font-weight:800;font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:var(--teal);margin:20px 0 12px">3 · Guarantors</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 14px">
+        <div class="form-group" style="margin:0"><label class="form-label">Guarantor 1 — name <span style="color:#C0394F">*</span></label><input id="kyc_g1_name" class="form-input" value="${_attr(k.guarantor1_name || '')}"></div>
+        <div class="form-group" style="margin:0"><label class="form-label">Guarantor 1 — phone <span style="color:#C0394F">*</span></label><input id="kyc_g1_phone" class="form-input" value="${_attr(k.guarantor1_phone || '')}" placeholder="080…"></div>
+        <div class="form-group" style="margin:0"><label class="form-label">Guarantor 2 — name <span style="color:var(--slate);font-weight:400">(optional)</span></label><input id="kyc_g2_name" class="form-input" value="${_attr(k.guarantor2_name || '')}"></div>
+        <div class="form-group" style="margin:0"><label class="form-label">Guarantor 2 — phone <span style="color:var(--slate);font-weight:400">(optional)</span></label><input id="kyc_g2_phone" class="form-input" value="${_attr(k.guarantor2_phone || '')}" placeholder="080…"></div>
+      </div>
+
+      <div style="font-weight:800;font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:var(--teal);margin:20px 0 12px">4 · Next of kin / emergency contact</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 14px">
+        <div class="form-group" style="margin:0"><label class="form-label">Full name <span style="color:#C0394F">*</span></label><input id="kyc_nok_name" class="form-input" value="${_attr(k.nok_name || '')}"></div>
+        <div class="form-group" style="margin:0"><label class="form-label">Relationship <span style="color:var(--slate);font-weight:400">(optional)</span></label><input id="kyc_nok_rel" class="form-input" value="${_attr(k.nok_relationship || '')}" placeholder="e.g. Sister"></div>
+        <div class="form-group" style="margin:0"><label class="form-label">Phone (emergency) <span style="color:#C0394F">*</span></label><input id="kyc_nok_phone" class="form-input" value="${_attr(k.nok_phone || '')}" placeholder="080…"></div>
+        <div class="form-group" style="margin:0"><label class="form-label">Address <span style="color:var(--slate);font-weight:400">(optional)</span></label><input id="kyc_nok_addr" class="form-input" value="${_attr(k.nok_address || '')}"></div>
+      </div>
+
+      <div style="font-weight:800;font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:var(--teal);margin:20px 0 12px">5 · Payout account <span style="color:var(--slate);font-weight:600;text-transform:none;letter-spacing:0">(where you'll be paid)</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 14px">
+        <div class="form-group" style="margin:0"><label class="form-label">Bank name <span style="color:#C0394F">*</span></label><input id="kyc_bank_name" class="form-input" value="${_attr(k.bank_name || '')}" placeholder="e.g. GTBank"></div>
+        <div class="form-group" style="margin:0"><label class="form-label">Account number <span style="color:#C0394F">*</span></label><input id="kyc_account_number" class="form-input" inputmode="numeric" value="${_attr(k.account_number || '')}" placeholder="10-digit NUBAN"></div>
+        <div class="form-group" style="margin:0;grid-column:1/-1"><label class="form-label">Account name <span style="color:#C0394F">*</span></label><input id="kyc_account_name" class="form-input" value="${_attr(k.account_name || '')}" placeholder="Name on the account"></div>
+      </div>
+
+      <div id="kyc_err" style="display:none;background:var(--rose-pale,#fbdbe3);color:#9a1b3a;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:500;margin-top:16px"></div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:18px">
+        <button class="btn btn-teal" id="kycSubmitBtn" onclick="submitKyc()">Submit for verification</button>
+      </div>
+    </div>`;
+}
+function kycErr(msg){
+  const el = document.getElementById('kyc_err');
+  if(!el) return;
+  if(!msg){ el.style.display='none'; el.textContent=''; return; }
+  el.textContent = msg; el.style.display='block';
+  el.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+async function uploadKycIdFile(file){
+  const { data:{ user }, error:authErr } = await _sb.auth.getUser();
+  if(authErr || !user){ kycErr('Your session expired — please sign in again.'); return null; }
+  const ext = ((file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')) || 'jpg';
+  const path = `kyc/${user.id}/${Date.now()}.${ext}`;
+  const { error:upErr } = await _sb.storage.from('flobb-photos').upload(path, file, { upsert:true, contentType:file.type || 'application/octet-stream' });
+  if(upErr){ kycErr('ID upload failed: '+upErr.message); return null; }
+  const { data:urlData } = _sb.storage.from('flobb-photos').getPublicUrl(path);
+  return { url: urlData.publicUrl, path };
+}
+async function submitKyc(){
+  const g = id => document.getElementById(id);
+  const val = id => (g(id)?.value || '').trim();
+  const required = [
+    ['kyc_fullname','your full name'], ['kyc_dob','your date of birth'],
+    ['kyc_address','your residential address'], ['kyc_id_type','your ID type'],
+    ['kyc_id_number','your ID number'], ['kyc_g1_name','guarantor 1 name'],
+    ['kyc_g1_phone','guarantor 1 phone'], ['kyc_nok_name','next of kin name'],
+    ['kyc_nok_phone','next of kin phone number'], ['kyc_bank_name','your bank name'],
+    ['kyc_account_number','your account number'], ['kyc_account_name','your account name']
+  ];
+  for(const [fid,label] of required){ if(!val(fid)){ kycErr('Please enter '+label+'.'); g(fid)?.focus(); return; } }
+  const fileInput = g('kyc_id_file');
+  const hasNewFile = fileInput && fileInput.files && fileInput.files.length;
+  if(!hasNewFile && !(MY_KYC && MY_KYC.id_photo_url)){ kycErr('Please upload a clear photo or scan of your means of identification.'); return; }
+
+  const btn = g('kycSubmitBtn'); if(btn){ btn.disabled = true; btn.textContent = 'Submitting…'; }
+  kycErr('');
+  let id_photo_url = MY_KYC && MY_KYC.id_photo_url ? MY_KYC.id_photo_url : null;
+  let id_photo_path = MY_KYC && MY_KYC.id_photo_path ? MY_KYC.id_photo_path : null;
+  try{
+    if(hasNewFile){
+      const up = await uploadKycIdFile(fileInput.files[0]);
+      if(!up){ if(btn){ btn.disabled=false; btn.textContent='Submit for verification'; } return; }
+      id_photo_url = up.url; id_photo_path = up.path;
+    }
+    const row = {
+      user_id: SESSION.id,
+      full_name: val('kyc_fullname'), dob: val('kyc_dob') || null, address: val('kyc_address'),
+      id_type: val('kyc_id_type'), id_number: val('kyc_id_number'), id_photo_url, id_photo_path,
+      guarantor1_name: val('kyc_g1_name'), guarantor1_phone: val('kyc_g1_phone'),
+      guarantor2_name: val('kyc_g2_name') || null, guarantor2_phone: val('kyc_g2_phone') || null,
+      nok_name: val('kyc_nok_name'), nok_relationship: val('kyc_nok_rel') || null,
+      nok_phone: val('kyc_nok_phone'), nok_address: val('kyc_nok_addr') || null,
+      bank_name: val('kyc_bank_name'), account_number: val('kyc_account_number'), account_name: val('kyc_account_name'),
+      admin_note: null, submitted_at: new Date().toISOString(), updated_at: new Date().toISOString()
+    };
+    const { error:upErr } = await _sb.from('flobb_kyc').upsert(row, { onConflict:'user_id' });
+    if(upErr){ kycErr('Could not save your details: '+upErr.message); if(btn){ btn.disabled=false; btn.textContent='Submit for verification'; } return; }
+    const { error:stErr } = await _sb.from('flobb_users').update({ kyc_status:'submitted' }).eq('id', SESSION.id);
+    if(stErr){ kycErr('Saved, but we could not update your status: '+stErr.message); if(btn){ btn.disabled=false; btn.textContent='Submit for verification'; } return; }
+    MY_KYC = row; DB.kyc[SESSION.id] = row; SESSION.kycStatus = 'submitted';
+    const me = DB.users.find(u => u.id === SESSION.id); if(me) me.kycStatus = 'submitted';
+    kycGateRender();
+    toast('Submitted for verification','success');
+  }catch(e){
+    kycErr('Something went wrong: '+(e.message || e));
+    if(btn){ btn.disabled=false; btn.textContent='Submit for verification'; }
+  }
+}
+
+/* ===== Admin: review / verify a cleaner's KYC ===== */
+function openKycReview(userId){
+  if(!requireAdmin()) return;
+  const u = DB.users.find(x => x.id === userId); if(!u) return;
+  const k = DB.kyc[userId];
+  document.getElementById('kycRevTitle').textContent = 'KYC — ' + u.name;
+  const ki = kycInfo(u.kycStatus);
+  document.getElementById('kycRevSub').innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:${ki.bg};color:${ki.fg}">${ki.dot} ${ki.label}</span>`;
+  const body = document.getElementById('kycRevBody');
+  if(!k){ body.innerHTML = `<div class="empty"><div class="empty-icon">🪪</div><h3>No KYC submitted yet</h3><p>${_esc(u.name)} hasn't completed their verification.</p></div>`; }
+  else {
+    const row = (label,v) => v ? `<div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--slate)">${label}</div><div style="font-size:14px;color:var(--ink);word-break:break-word">${_esc(v)}</div></div>` : '';
+    body.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 18px">
+        ${row('Full name', k.full_name)} ${row('Date of birth', k.dob)}
+        ${row('Address', k.address)}
+      </div>
+      <div class="section-label" style="margin-top:6px">Means of identification</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 18px">
+        ${row('ID type', k.id_type)} ${row('ID number', k.id_number)}
+      </div>
+      ${k.id_photo_url ? `<a href="${_attr(k.id_photo_url)}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="align-self:flex-start">🪪 View uploaded ID ↗</a>` : '<div style="font-size:13px;color:var(--rose,#9a1b3a)">No ID document uploaded.</div>'}
+      <div class="section-label" style="margin-top:6px">Guarantors</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 18px">
+        ${row('Guarantor 1', k.guarantor1_name)} ${row('Guarantor 1 phone', k.guarantor1_phone)}
+        ${row('Guarantor 2', k.guarantor2_name)} ${row('Guarantor 2 phone', k.guarantor2_phone)}
+      </div>
+      <div class="section-label" style="margin-top:6px">Next of kin / emergency contact</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 18px">
+        ${row('Name', k.nok_name)} ${row('Relationship', k.nok_relationship)}
+        ${row('Phone', k.nok_phone)} ${row('Address', k.nok_address)}
+      </div>
+      <div class="section-label" style="margin-top:6px">Payout account</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 18px">
+        ${row('Bank', k.bank_name)} ${row('Account number', k.account_number)}
+        ${row('Account name', k.account_name)}
+      </div>
+      ${k.submitted_at ? `<div style="font-size:12px;color:var(--slate);margin-top:6px">Submitted ${new Date(k.submitted_at).toLocaleString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>` : ''}
+      <div id="kycRevMsg" style="display:none;padding:9px 12px;border-radius:9px;font-size:13px;margin-top:4px"></div>`;
+  }
+  const foot = document.getElementById('kycRevFoot');
+  const canAct = !!k;
+  foot.innerHTML = `
+    <button class="btn btn-ghost" onclick="closeModal('kycReviewModal')">Close</button>
+    ${canAct ? `<button class="btn" style="background:#fbdbe3;color:#9a1b3a" onclick="rejectKyc('${userId}')">Request changes</button>
+    <button class="btn btn-teal" ${u.kycStatus==='verified'?'disabled style="opacity:.5"':''} onclick="verifyKyc('${userId}')">${u.kycStatus==='verified'?'Verified ✓':'Verify cleaner'}</button>` : ''}`;
+  openModal('kycReviewModal');
+}
+function kycRevMsg(msg, isErr){
+  const el = document.getElementById('kycRevMsg'); if(!el) return;
+  el.textContent = msg; el.style.display='block';
+  el.style.background = isErr ? '#fbdbe3' : '#d8f3e8';
+  el.style.color = isErr ? '#9a1b3a' : '#0b6b4f';
+}
+async function verifyKyc(userId){
+  if(!requireAdmin()) return;
+  const { error } = await _sb.from('flobb_users').update({ kyc_status:'verified' }).eq('id', userId);
+  if(error){ kycRevMsg('Could not verify: '+error.message, true); return; }
+  await _sb.from('flobb_kyc').update({ reviewed_by: SESSION.id, reviewed_at: new Date().toISOString(), admin_note: null }).eq('user_id', userId);
+  const u = DB.users.find(x => x.id === userId); if(u) u.kycStatus = 'verified';
+  if(DB.kyc[userId]) DB.kyc[userId].admin_note = null;
+  renderSupervisors();
+  kycRevMsg('Verified — this cleaner can now be assigned bookings.', false);
+  toast('Cleaner verified','success');
+  setTimeout(() => { openKycReview(userId); }, 400);
+}
+async function rejectKyc(userId){
+  if(!requireAdmin()) return;
+  const note = prompt('What does the cleaner need to fix? (shown to them so they can resubmit)');
+  if(note === null) return;
+  const { error } = await _sb.from('flobb_users').update({ kyc_status:'rejected' }).eq('id', userId);
+  if(error){ kycRevMsg('Could not update: '+error.message, true); return; }
+  await _sb.from('flobb_kyc').update({ reviewed_by: SESSION.id, reviewed_at: new Date().toISOString(), admin_note: note || null }).eq('user_id', userId);
+  const u = DB.users.find(x => x.id === userId); if(u) u.kycStatus = 'rejected';
+  if(DB.kyc[userId]) DB.kyc[userId].admin_note = note || null;
+  renderSupervisors();
+  kycRevMsg('Sent back to the cleaner for changes.', false);
+  toast('Changes requested','info');
+  setTimeout(() => { openKycReview(userId); }, 400);
+}
 function requireAdmin(){ if(SESSION && SESSION.role === 'admin') return true; toast('This action is for admins only.','error'); return false; }
 
 async function loadBookings(){
@@ -3492,7 +3820,10 @@ function openBookingDetail(id){
   const sel = document.getElementById('bkAssign');
   const sups = DB.users.filter(u => u.role !== 'admin');
   sel.innerHTML = '<option value="">— Unassigned —</option>' +
-    sups.map(u => `<option value="${u.id}" ${_bk.assigned_supervisor_id===u.id?'selected':''}>${_esc(u.name)}</option>`).join('');
+    sups.map(u => {
+      const verified = u.kycStatus === 'verified';
+      return `<option value="${u.id}" ${_bk.assigned_supervisor_id===u.id?'selected':''} ${verified?'':'disabled'}>${_esc(u.name)}${verified?'':' — KYC '+(u.kycStatus==='submitted'?'in review':u.kycStatus==='rejected'?'rejected':'not done')}</option>`;
+    }).join('');
   document.getElementById('bkNotes').value = _bk.notes || '';
   document.getElementById('bk_msg').style.display = 'none';
   renderBookingDetail();
@@ -3572,6 +3903,13 @@ async function assignBooking(){
   const b = _bk; if(!b) return;
   if(!b.job_id){ bkShowMsg('Create a job card first, then assign it to a cleaner.', true); return; }
   const supId = document.getElementById('bkAssign').value || null;
+  if(supId){
+    const cleaner = DB.users.find(u => u.id === supId);
+    if(cleaner && cleaner.kycStatus !== 'verified'){
+      bkShowMsg(`${cleaner.name} hasn't passed KYC verification yet — verify them in the Cleaners tab before assigning work.`, true);
+      return;
+    }
+  }
   const { error } = await _sb.from('flobb_bookings').update({ assigned_supervisor_id: supId }).eq('id', b.id);
   if(error){ bkShowMsg('Assign failed: '+error.message, true); return; }
   b.assigned_supervisor_id = supId;

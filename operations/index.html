@@ -983,8 +983,12 @@ tbody td{padding:11px 16px;color:var(--ink);vertical-align:middle}
       <div class="page-head">
         <div>
           <div class="page-title">Service Pricing</div>
-          <div class="page-sub">Set prices and toggle services on/off — these can feed the website menu</div>
+          <div class="page-sub">Add, edit, remove, price and toggle services — these feed the website menu</div>
         </div>
+        <button class="btn btn-primary" onclick="openServiceModal()">
+          <svg viewBox="0 0 20 20" fill="currentColor" style="width:14px;height:14px"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+          New Service
+        </button>
       </div>
       <div id="pricingList"></div>
     </div>
@@ -1074,6 +1078,52 @@ tbody td{padding:11px 16px;color:var(--ink);vertical-align:middle}
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('campaignModal')">Cancel</button>
       <button class="btn btn-teal" onclick="saveCampaign()">Save Campaign</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SERVICE (add / edit) MODAL -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="modal-bg" id="serviceModal">
+  <div class="modal modal-md">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="svcModalTitle">New Service</div>
+        <div class="modal-sub">Appears in the website's "Build your clean" menu</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('serviceModal')">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" style="display:flex;flex-direction:column;gap:12px">
+      <input type="hidden" id="svc_id">
+      <div class="form-group" style="margin:0"><label class="form-label">Category</label><input id="svc_category" class="form-input" list="svc_cat_list" placeholder="e.g. Core home cleaning"><datalist id="svc_cat_list"></datalist></div>
+      <div class="form-group" style="margin:0"><label class="form-label">Service name</label><input id="svc_name" class="form-input" placeholder="e.g. Sofa / couch cleaning"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group" style="margin:0"><label class="form-label">Pricing type</label>
+          <select id="svc_type" class="form-input" onchange="svcTypeHint()">
+            <option value="fixed">Fixed price</option>
+            <option value="qty">Per quantity (seats, units…)</option>
+            <option value="size">By size (S/M/L)</option>
+            <option value="request">On request / quote</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0"><label class="form-label">Unit label</label><input id="svc_unit" class="form-input" placeholder="per seat / by size / per clean"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group" style="margin:0"><label class="form-label">Price ₦ <span id="svc_price_note" style="color:var(--slate);font-weight:400;font-size:11px"></span></label><input id="svc_price" class="form-input" type="number" placeholder="leave blank = quote"></div>
+        <div class="form-group" style="margin:0"><label class="form-label">Duration (optional)</label><input id="svc_duration" class="form-input" placeholder="e.g. 2 hours"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group" style="margin:0"><label class="form-label">Sort order</label><input id="svc_sort" class="form-input" type="number" value="100"></div>
+        <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;align-self:end;padding-bottom:10px"><input type="checkbox" id="svc_active" checked style="accent-color:var(--teal)"> Active (shown on website)</label>
+      </div>
+      <div id="svc_error" style="display:none;background:var(--rose-pale);color:var(--rose);padding:10px 14px;border-radius:var(--radius);font-size:13px"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('serviceModal')">Cancel</button>
+      <button class="btn btn-teal" onclick="saveService()">Save Service</button>
     </div>
   </div>
 </div>
@@ -3462,7 +3512,8 @@ function renderBookingDetail(){
     </div>
     <div class="section-label" style="margin-top:14px">Requested services</div>
     ${sel.length ? '<ul style="margin:0;padding-left:18px;font-size:14px;color:var(--ink);line-height:1.7">'+sel.map(s => `<li>${_esc(s)}</li>`).join('')+'</ul>' : '<div style="color:var(--slate);font-size:14px">—</div>'}
-    ${addons.length ? '<div style="margin-top:10px"><span style="font-size:10.5px;text-transform:uppercase;color:var(--slate)">Add-ons:</span> '+addons.map(a => `<span class="chip" style="margin:2px">${_esc(a)}</span>`).join('')+'</div>' : ''}`;
+    ${addons.length ? '<div style="margin-top:10px"><span style="font-size:10.5px;text-transform:uppercase;color:var(--slate)">Add-ons:</span> '+addons.map(a => `<span class="chip" style="margin:2px">${_esc(a)}</span>`).join('')+'</div>' : ''}
+    ${b.cleaner_preference ? '<div class="section-label" style="margin-top:14px">Cleaner preference</div><div style="font-size:14px;color:var(--ink);background:var(--gold-pale);border:1px solid var(--border-light);border-radius:10px;padding:10px 12px;line-height:1.6;white-space:pre-wrap">'+_esc(b.cleaner_preference)+'</div>' : ''}`;
   const jobArea = document.getElementById('bkJobArea');
   if(b.job_id){
     const j = DB.jobs.find(x => x.id === b.job_id);
@@ -3771,6 +3822,8 @@ function renderPricing(){
             <input class="form-input price-input" type="number" value="${s.base_price ?? ''}" placeholder="quote" onchange="saveServicePrice('${s.id}', this.value)">
           </div>
           <label class="switch" title="Show on website"><input type="checkbox" ${s.active?'checked':''} onchange="toggleServiceActive('${s.id}', this.checked)"><span class="sl"></span></label>
+          <button class="btn btn-ghost btn-sm" style="padding:5px 9px" title="Edit service" onclick="openServiceModal('${s.id}')">✎</button>
+          <button class="btn btn-ghost btn-sm" style="padding:5px 9px;color:var(--rose)" title="Remove service" onclick="deleteService('${s.id}')">✕</button>
         </div>`).join('')}
     </div>`).join('');
 }
@@ -3786,6 +3839,66 @@ async function toggleServiceActive(id, active){
   if(error){ toast('Update failed: '+error.message,'error'); return; }
   const s = DB.services.find(x => x.id === id); if(s) s.active = active;
   toast(active ? 'Service enabled' : 'Service hidden','success');
+}
+function svcTypeHint(){
+  const t = document.getElementById('svc_type').value;
+  const note = document.getElementById('svc_price_note');
+  if(note) note.textContent = t === 'fixed' ? '(total price)' : (t === 'qty' ? '(per unit · optional)' : t === 'size' ? '(optional)' : '(leave blank)');
+}
+function openServiceModal(id){
+  if(!requireAdmin()) return;
+  const s = id ? (DB.services||[]).find(x => x.id === id) : null;
+  document.getElementById('svcModalTitle').textContent = s ? 'Edit Service' : 'New Service';
+  document.getElementById('svc_id').value = s ? s.id : '';
+  document.getElementById('svc_category').value = s ? s.category : '';
+  document.getElementById('svc_name').value = s ? s.name : '';
+  document.getElementById('svc_type').value = s ? (s.price_type || 'fixed') : 'fixed';
+  document.getElementById('svc_unit').value = s ? (s.unit_label || '') : '';
+  document.getElementById('svc_price').value = (s && s.base_price != null) ? s.base_price : '';
+  document.getElementById('svc_duration').value = s ? (s.duration || '') : '';
+  document.getElementById('svc_sort').value = (s && s.sort_order != null) ? s.sort_order : 100;
+  document.getElementById('svc_active').checked = s ? !!s.active : true;
+  const cats = [...new Set((DB.services||[]).map(x => x.category).filter(Boolean))];
+  document.getElementById('svc_cat_list').innerHTML = cats.map(c => `<option value="${_esc(c)}">`).join('');
+  document.getElementById('svc_error').style.display = 'none';
+  svcTypeHint();
+  openModal('serviceModal');
+}
+async function saveService(){
+  if(!requireAdmin()) return;
+  const err = document.getElementById('svc_error'); err.style.display = 'none';
+  const id = document.getElementById('svc_id').value;
+  const category = document.getElementById('svc_category').value.trim();
+  const name = document.getElementById('svc_name').value.trim();
+  if(!category || !name){ err.textContent = 'Category and service name are required.'; err.style.display = 'block'; return; }
+  const priceVal = document.getElementById('svc_price').value;
+  const sortVal = document.getElementById('svc_sort').value;
+  const row = {
+    category, name,
+    price_type: document.getElementById('svc_type').value,
+    unit_label: document.getElementById('svc_unit').value.trim() || null,
+    base_price: priceVal === '' ? null : Number(priceVal),
+    duration: document.getElementById('svc_duration').value.trim() || null,
+    sort_order: sortVal === '' ? 100 : parseInt(sortVal, 10),
+    active: document.getElementById('svc_active').checked
+  };
+  let res;
+  if(id){ res = await _sb.from('flobb_services').update(row).eq('id', id).select().single(); }
+  else { res = await _sb.from('flobb_services').insert([row]).select().single(); }
+  if(res.error){ err.textContent = 'Save failed: ' + res.error.message; err.style.display = 'block'; return; }
+  if(id){ const i = DB.services.findIndex(x => x.id === id); if(i >= 0) DB.services[i] = res.data; }
+  else { DB.services.push(res.data); }
+  closeModal('serviceModal'); renderPricing();
+  toast('Service saved','success');
+}
+async function deleteService(id){
+  if(!requireAdmin()) return;
+  const s = (DB.services||[]).find(x => x.id === id);
+  if(!confirm('Remove "' + (s ? s.name : 'this service') + '"? This cannot be undone.')) return;
+  const { error } = await _sb.from('flobb_services').delete().eq('id', id);
+  if(error){ toast('Delete failed: '+error.message,'error'); return; }
+  DB.services = DB.services.filter(x => x.id !== id);
+  renderPricing(); toast('Service removed','success');
 }
 
 function renderCampaigns(){

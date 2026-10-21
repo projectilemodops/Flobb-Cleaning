@@ -1135,7 +1135,8 @@ const FLOBB = {
   whatsappNumber: "2349062026146",                       // Flobb WhatsApp (234 + number without leading 0)
   communityLink: "https://chat.whatsapp.com/IJdsrcVSLzP6Oi8XeiO9zY", // ← replace with your invite link
   supportEmail: "flobbcleaning@gmail.com",                // support email (clients can reach out)
-  mailUrl: "https://script.google.com/macros/s/AKfycbzIkFOUGIr7WP5hjpHyBQwEZjz5pT0jEfrvdg2Gbc3R0fsmJl5Ufl-biehWedPM7MinTg/exec"       // ← flobb_ops_mailer.gs /exec URL (sends the confirmation email)
+  mailUrl: "https://script.google.com/macros/s/AKfycbzIkFOUGIr7WP5hjpHyBQwEZjz5pT0jEfrvdg2Gbc3R0fsmJl5Ufl-biehWedPM7MinTg/exec",       // ← flobb_ops_mailer.gs /exec URL (sends the confirmation email)
+  assistantUrl: "https://mncjtcfnkaqzycnkmbgp.supabase.co/functions/v1/flobb-assistant"       // ← flobb-assistant Edge Function (lights up once the function is deployed in step 3)
 };
 
 /* Supabase — bookings are recorded here so they show in the Operations Hub. */
@@ -1480,6 +1481,68 @@ if(!prefersReduced && 'IntersectionObserver' in window){
 } else {
   document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
 }
+</script>
+<!-- ════════ FLOBB AI ASSISTANT WIDGET ════════ -->
+<style>
+#fab-ai{position:fixed;right:18px;bottom:18px;z-index:900;width:58px;height:58px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#0f2742,#17597a);color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.25);font-size:24px;display:flex;align-items:center;justify-content:center;transition:transform .15s}
+#fab-ai:hover{transform:translateY(-2px)}
+#ai-panel{position:fixed;right:18px;bottom:86px;z-index:900;width:min(370px,calc(100vw - 36px));height:min(520px,calc(100vh - 120px));background:#fff;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.28);display:none;flex-direction:column;overflow:hidden}
+#ai-panel.open{display:flex}
+#ai-panel .ai-head{background:linear-gradient(135deg,#0f2742,#17597a);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px}
+#ai-panel .ai-head b{font-size:15px}#ai-panel .ai-head small{opacity:.85;font-size:11.5px;display:block}
+#ai-panel .ai-x{margin-left:auto;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;opacity:.85;line-height:1}
+#ai-panel .ai-body{flex:1;overflow-y:auto;padding:14px;background:#f6f8fa;display:flex;flex-direction:column;gap:10px}
+#ai-panel .ai-msg{max-width:82%;padding:9px 12px;border-radius:14px;font-size:13.5px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word;overflow-wrap:anywhere}
+#ai-panel .ai-bot{background:#fff;border:1px solid #e6eaef;align-self:flex-start;border-bottom-left-radius:4px;color:#17323f}
+#ai-panel .ai-user{background:#17597a;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+#ai-panel .ai-ho{align-self:flex-start;display:flex;gap:8px;flex-wrap:wrap}
+#ai-panel .ai-ho a{font-size:12.5px;font-weight:700;text-decoration:none;padding:7px 12px;border-radius:999px}
+#ai-panel .ai-ho .wa{background:#25D366;color:#fff}#ai-panel .ai-ho .em{background:#eef1f4;color:#0f2742}
+#ai-panel .ai-foot{display:flex;gap:8px;padding:10px;border-top:1px solid #e6eaef;background:#fff}
+#ai-panel .ai-foot input{flex:1;border:1px solid #d7dde3;border-radius:999px;padding:10px 14px;font-size:13.5px;outline:none}
+#ai-panel .ai-foot input:focus{border-color:#17597a}
+#ai-panel .ai-foot button{border:none;background:#17597a;color:#fff;border-radius:999px;width:42px;cursor:pointer;font-size:15px}
+#ai-panel .ai-typing{font-size:12px;color:#8a97a3;align-self:flex-start;padding:2px 6px}
+</style>
+<button id="fab-ai" aria-label="Chat with Flobb" onclick="aiToggle()">💬</button>
+<div id="ai-panel" role="dialog" aria-label="Flobb assistant">
+  <div class="ai-head"><div style="font-size:18px">💬</div><div><b>Flobb Assistant</b><small>Services, prices &amp; booking help</small></div><button class="ai-x" aria-label="Close" onclick="aiToggle()">×</button></div>
+  <div class="ai-body" id="aiBody"></div>
+  <div class="ai-foot"><input id="aiInput" placeholder="Type your question…" onkeydown="if(event.key==='Enter')aiSend()"><button aria-label="Send" onclick="aiSend()">➤</button></div>
+</div>
+<script>
+(function(){
+  var URL_ = (typeof FLOBB!=='undefined' && FLOBB.assistantUrl) ? FLOBB.assistantUrl : "";
+  if(!URL_ || /PASTE_/.test(URL_)){ var f=document.getElementById('fab-ai'); if(f) f.style.display='none'; return; }
+  var hist=[], sid='s'+Date.now().toString(36)+Math.random().toString(36).slice(2,7), greeted=false, busy=false;
+  function body(){return document.getElementById('aiBody');}
+  function scroll(){var b=body();b.scrollTop=b.scrollHeight;}
+  function bot(t){var d=document.createElement('div');d.className='ai-msg ai-bot';d.textContent=t;body().appendChild(d);scroll();}
+  function usr(t){var d=document.createElement('div');d.className='ai-msg ai-user';d.textContent=t;body().appendChild(d);scroll();}
+  function handoff(q){
+    var wa="https://wa.me/"+FLOBB.whatsappNumber+"?text="+encodeURIComponent("Hi Flobb, I was using your website assistant and need help with: "+q);
+    var em="mailto:"+FLOBB.supportEmail+"?subject="+encodeURIComponent("Flobb website enquiry")+"&body="+encodeURIComponent("Hi Flobb,\n\nI need help with: "+q);
+    var w=document.createElement('div');w.className='ai-ho';
+    w.innerHTML='<a class="wa" href="'+wa+'" target="_blank" rel="noopener">💬 Continue on WhatsApp</a><a class="em" href="'+em+'">✉ Email support</a>';
+    body().appendChild(w);scroll();
+  }
+  window.aiToggle=function(){
+    var p=document.getElementById('ai-panel');p.classList.toggle('open');
+    if(p.classList.contains('open')){ if(!greeted){greeted=true;bot("Hi! 👋 I'm the Flobb assistant. Ask me about our cleaning services, prices or how to book.");} document.getElementById('aiInput').focus(); }
+  };
+  window.aiSend=async function(){
+    if(busy)return;var inp=document.getElementById('aiInput');var q=(inp.value||'').trim();if(!q)return;
+    inp.value='';usr(q);hist.push({role:'user',text:q});
+    busy=true;var t=document.createElement('div');t.className='ai-typing';t.textContent='Flobb is typing…';body().appendChild(t);scroll();
+    try{
+      var r=await fetch(URL_,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist.slice(-10),session_id:sid})});
+      var d=await r.json();t.remove();
+      var a=d.answer||"Sorry, I couldn't answer that one.";bot(a);hist.push({role:'model',text:a});
+      if(d.handoff)handoff(q);
+    }catch(e){t.remove();bot("I'm having trouble connecting right now. You can reach the team directly:");handoff(q);}
+    busy=false;
+  };
+})();
 </script>
 </body>
 </html>

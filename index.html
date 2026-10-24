@@ -146,16 +146,23 @@
   .brand { display: flex; align-items: center; gap: 10px; }
   .brand-wordmark { font-family: var(--serif); font-size: 1.5rem; color: var(--navy); letter-spacing: -0.02em; }
   .brand-dot { color: var(--green-cta); }
-  .nav-links { display: flex; gap: 2px; margin-left: auto; }
+  .nav-links { display: flex; gap: 2px; margin: 0 auto; }
   .nav-links a { font-size: 14.5px; font-weight: 500; color: var(--ink-2); padding: 7px 13px; border-radius: 50px; transition: all .15s; }
   .nav-links a:hover { background: var(--bg); color: var(--ink); }
+  .nav-links .has-dd { position: relative; }
+  .nav-links .has-dd > a::after { content:"▾"; font-size:10px; margin-left:5px; opacity:.55; }
+  .nav-dd { position:absolute; top:100%; left:0; min-width:186px; background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm); padding:6px; display:none; flex-direction:column; gap:2px; z-index:60; }
+  .nav-links .has-dd:hover .nav-dd, .nav-links .has-dd:focus-within .nav-dd { display:flex; }
+  .nav-dd a { display:block; white-space:nowrap; }
   .nav-cta { display: flex; gap: 10px; }
   .nav-toggle { display: none; background: none; border: none; cursor: pointer; color: var(--ink); padding:8px; }
   @media (max-width: 940px) {
     .nav-links { display: none; }
+    .nav-cta { margin-left: auto; }
     .nav-cta .btn-secondary { display:none; }
+    .nav-toggle { display: flex; }
   }
-  @media (max-width: 620px) { .nav-cta { display:none; } .nav-toggle { display: flex; margin-left:auto; } }
+  @media (max-width: 620px) { .nav-cta { display:none; } .nav-toggle { margin-left:auto; } }
   /* mobile menu */
   .mobile-menu { display:none; border-bottom:1px solid var(--border); background:#fff; }
   .mobile-menu.open { display:block; }
@@ -550,16 +557,20 @@
         <span class="brand-wordmark">Flobb<span class="brand-dot">.</span></span>
       </a>
       <ul class="nav-links">
-        <li><a href="flobb-community/">Community</a></li>
-        <li><a href="#services">Services</a></li>
+        <li class="has-dd">
+          <a href="#services">Services</a>
+          <ul class="nav-dd">
+            <li><a href="#services">Build your clean</a></li>
+            <li><a href="#how-it-works">How it works</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </li>
         <li><a href="#promos">Promos</a></li>
-        <li><a href="#how-it-works">How it works</a></li>
-        <li><a href="#b2b">Post-construction</a></li>
-        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#b2b">Corporate Services</a></li>
       </ul>
       <div class="nav-cta">
-        <a class="btn btn-secondary" href="#book">Book a clean</a>
-        <a class="btn btn-green" href="flobb-community/">Join the community</a>
+        <a class="btn btn-secondary" href="#services">Book a clean</a>
+        <a class="btn btn-green" href="flobb-community/">Become a Cleaner</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" id="navToggle">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -567,15 +578,14 @@
     </nav>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="flobb-community/">Community</a>
     <a href="#services">Services</a>
+    <a href="#how-it-works" style="padding-left:44px;">How it works</a>
+    <a href="#faq" style="padding-left:44px;">FAQ</a>
     <a href="#promos">Promos</a>
-    <a href="#how-it-works">How it works</a>
-    <a href="#b2b">Post-construction</a>
-    <a href="#faq">FAQ</a>
+    <a href="#b2b">Corporate Services</a>
     <div class="mm-cta">
-      <a class="btn btn-secondary btn-block" href="#book">Book a clean</a>
-      <a class="btn btn-green btn-block" href="flobb-community/">Join</a>
+      <a class="btn btn-secondary btn-block" href="#services">Book a clean</a>
+      <a class="btn btn-green btn-block" href="flobb-community/">Become a Cleaner</a>
     </div>
   </div>
 </header>
@@ -595,19 +605,8 @@
         <p class="lede">Flobb connects Lagos homes and businesses with vetted cleaners — and gives cleaners the training, tools and bookings to build a real career. Join the community, or book your first clean.</p>
 
         <div class="hero-ctas">
-          <a href="#book" class="btn btn-solid-light btn-lg">Book a clean</a>
-          <a href="flobb-community/" class="btn btn-ghost-light btn-lg">Join our community</a>
-        </div>
-
-        <div class="app-badges">
-          <a href="javascript:void(0)" class="app-badge" style="cursor:default" title="Coming soon">
-            <span class="glyph"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.05 12.97c-.03-2.83 2.31-4.18 2.41-4.25-1.31-1.91-3.36-2.18-4.09-2.21-1.74-.18-3.41 1.04-4.29 1.04-.9 0-2.25-1.02-3.7-.99-1.91.03-3.66 1.11-4.64 2.81-1.99 3.45-.51 8.55 1.41 11.36.94 1.37 2.06 2.91 3.51 2.86 1.41-.06 1.95-.91 3.66-.91s2.19.91 3.69.88c1.52-.03 2.49-1.4 3.42-2.77 1.08-1.59 1.52-3.13 1.55-3.21-.03-.01-2.97-1.14-3-4.51zM14.43 5.16c.77-.94 1.29-2.24 1.15-3.53-1.11.05-2.46.74-3.26 1.67-.71.82-1.34 2.15-1.17 3.42 1.24.1 2.5-.63 3.28-1.56z"/></svg></span>
-            <span class="text"><span class="top">Coming soon</span><span class="bot">App Store</span></span>
-          </a>
-          <a href="javascript:void(0)" class="app-badge" style="cursor:default" title="Coming soon">
-            <span class="glyph"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M3.6 1.7C3.2 2.1 3 2.7 3 3.5v17c0 .8.2 1.4.6 1.8l.1.1L13.2 13v-.2L3.7 1.6l-.1.1zm12.9 12.1l-3.2-1.8 2.4-2.4 3.7 2.1c1 .6 1 1.5 0 2.1l-2.9 2zm-1.4.7l-2.3 2.3 2.3 2.3-9.3-5.4 9.3-5.4 2.3 2.3-2.3 2.3z"/></svg></span>
-            <span class="text"><span class="top">Coming soon</span><span class="bot">Google Play</span></span>
-          </a>
+          <a href="#services" class="btn btn-solid-light btn-lg">Book a clean</a>
+          <a href="flobb-community/" class="btn btn-ghost-light btn-lg">Become a Cleaner</a>
         </div>
 
         <div class="meta-row">
@@ -660,9 +659,9 @@
       </div>
       <div class="door cleaner reveal d2">
         <span class="door-tag">I clean · I want to learn</span>
-        <h3>Join the Flobb Community</h3>
+        <h3>Become a Flobb Cleaner</h3>
         <p>Free certification, real client bookings, the Flobb checklists, and early access to the platform. For cleaners and cleaning enthusiasts.</p>
-        <a href="flobb-community/" class="btn btn-green">Join the community →</a>
+        <a href="flobb-community/" class="btn btn-green">Become a Cleaner →</a>
       </div>
     </div>
   </div>
@@ -700,7 +699,7 @@
   <div class="container">
     <div style="display:flex;align-items:end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:28px;">
       <div class="sec-head reveal" style="margin-bottom:0;">
-        <div class="eyebrow">Book a clean</div>
+        <div class="eyebrow">Book a clean · Step 1</div>
         <h2 class="editorial">Build your clean.</h2>
         <p>Pick any services across the categories below and set the quantity or size — your selection drops straight into the booking form. Fixed prices on core cleans; everything else quoted on booking.</p>
       </div>
@@ -777,59 +776,14 @@
   </div>
 </section>
 
-<!-- ── PROMOS ─────────────────────────── -->
-<section class="section" id="promos" style="padding-top:0;">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow" style="color:var(--gold-ink);">Limited campaigns</div>
-      <h2 class="editorial">Bundles customers get instantly.</h2>
-      <p>Smart combinations for life’s big moments — booked as one simple package.</p>
-    </div>
-    <div class="bundle-grid">
-      <div class="bundle reveal" style="background:linear-gradient(160deg,#0F3A9B,#0B2063);" data-service="New Home Pack">
-        <div class="aurora" aria-hidden="true"></div>
-        <span class="bundle-badge">Best for new tenants</span>
-        <h3>New Home Pack</h3>
-        <p>Move into a spotless, move-in-ready home — cleaned top to bottom, tank included and fumigated before you unpack.</p>
-        <div class="b-items"><span>Move-in clean</span><span>Water tank cleaning</span><span>Fumigation</span></div>
-        <a href="#book" class="btn btn-solid-light" data-bundle="New Home Pack" data-items="Move-in clean|Water tank cleaning|Fumigation">Book this bundle →</a>
-      </div>
-      <div class="bundle reveal" style="background:linear-gradient(160deg,#2096D3,#1558C9);" data-service="New Baby Pack">
-        <div class="aurora" aria-hidden="true"></div>
-        <span class="bundle-badge">New arrival</span>
-        <h3>New Baby Pack</h3>
-        <p>A fresh, sanitised home for your newest arrival — deep cleaned, disinfected, with a fresh mattress and curtains.</p>
-        <div class="b-items"><span>Deep clean</span><span>Sanitisation</span><span>Mattress</span><span>Curtains</span></div>
-        <a href="#book" class="btn btn-solid-light" data-bundle="New Baby Pack" data-items="Deep clean|Sanitisation|Mattress|Curtains">Book this bundle →</a>
-      </div>
-      <div class="bundle reveal" style="background:linear-gradient(160deg,#8B1A2A,#C07820);" data-service="Festive Deep Clean">
-        <div class="aurora" aria-hidden="true"></div>
-        <span class="bundle-badge">Seasonal</span>
-        <h3>Festive Deep Clean</h3>
-        <p>Host with pride for Christmas, Easter or Sallah. A full festive deep clean — book early, spaces are limited each season.</p>
-        <div class="b-items"><span>Deep clean</span><span>Kitchen</span><span>Windows &amp; glass</span></div>
-        <a href="#book" class="btn btn-solid-light" data-bundle="Festive Deep Clean" data-items="Deep clean|Kitchen|Windows &amp; glass">Book this bundle →</a>
-      </div>
-      <div class="bundle reveal" style="background:linear-gradient(160deg,#0A5A32,#0E8F4C);" data-service="Landlord Handover">
-        <div class="aurora" aria-hidden="true"></div>
-        <span class="bundle-badge">For landlords &amp; agents</span>
-        <h3>Landlord Handover</h3>
-        <p>Hand a property back in perfect condition. An empty-home clean with windows and bathroom descaling for a flawless handover.</p>
-        <div class="b-items"><span>Move-out clean</span><span>Windows</span><span>Bathroom descaling</span></div>
-        <a href="#book" class="btn btn-solid-light" data-bundle="Landlord Handover" data-items="Move-out clean|Windows|Bathroom descaling">Book this bundle →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ── BOOKING FORM ────────────────────────────────── -->
 <section class="section" id="book" style="background:var(--bg);padding-top:0;">
   <div class="container">
     <div class="grid-2" style="gap:48px;align-items:start;">
       <div class="reveal">
-        <div class="eyebrow">Book a clean</div>
+        <div class="eyebrow">Book a clean · Step 2</div>
         <h2 class="editorial">Tell us what you need.</h2>
-        <p class="lede">Fill this in and we'll open WhatsApp with your request ready to send. A Flobb coordinator confirms your cleaner, price and time — no payment until you're matched.</p>
+        <p class="lede">Your picks from <a href="#services" style="color:var(--navy);font-weight:700;">Build your clean</a> drop in on the right as you select. Add your details and we'll open WhatsApp with your request ready to send — a Flobb coordinator confirms your cleaner, price and time, with no payment until you're matched.</p>
         <ul class="value-list" style="margin-top:8px;">
           <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="#0E8F4C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Vetted &amp; insured cleaners only</li>
           <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="#0E8F4C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Escrow-protected — pay only when you approve</li>
@@ -914,6 +868,51 @@
           <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-bottom:10px;">Request this clean →</button>
           <a href="#" id="waBookDirect" class="btn btn-wa btn-block">Or just book on WhatsApp</a>
         </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROMOS (bundles) ─────────────────────────── -->
+<section class="section" id="promos">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow" style="color:var(--gold-ink);">Limited campaigns</div>
+      <h2 class="editorial">Bundles customers get instantly.</h2>
+      <p>Smart combinations for life’s big moments — booked as one simple package.</p>
+    </div>
+    <div class="bundle-grid">
+      <div class="bundle reveal" style="background:linear-gradient(160deg,#0F3A9B,#0B2063);" data-service="New Home Pack">
+        <div class="aurora" aria-hidden="true"></div>
+        <span class="bundle-badge">Best for new tenants</span>
+        <h3>New Home Pack</h3>
+        <p>Move into a spotless, move-in-ready home — cleaned top to bottom, tank included and fumigated before you unpack.</p>
+        <div class="b-items"><span>Move-in clean</span><span>Water tank cleaning</span><span>Fumigation</span></div>
+        <a href="#book" class="btn btn-solid-light" data-bundle="New Home Pack" data-items="Move-in clean|Water tank cleaning|Fumigation">Book this bundle →</a>
+      </div>
+      <div class="bundle reveal" style="background:linear-gradient(160deg,#2096D3,#1558C9);" data-service="New Baby Pack">
+        <div class="aurora" aria-hidden="true"></div>
+        <span class="bundle-badge">New arrival</span>
+        <h3>New Baby Pack</h3>
+        <p>A fresh, sanitised home for your newest arrival — deep cleaned, disinfected, with a fresh mattress and curtains.</p>
+        <div class="b-items"><span>Deep clean</span><span>Sanitisation</span><span>Mattress</span><span>Curtains</span></div>
+        <a href="#book" class="btn btn-solid-light" data-bundle="New Baby Pack" data-items="Deep clean|Sanitisation|Mattress|Curtains">Book this bundle →</a>
+      </div>
+      <div class="bundle reveal" style="background:linear-gradient(160deg,#8B1A2A,#C07820);" data-service="Festive Deep Clean">
+        <div class="aurora" aria-hidden="true"></div>
+        <span class="bundle-badge">Seasonal</span>
+        <h3>Festive Deep Clean</h3>
+        <p>Host with pride for Christmas, Easter or Sallah. A full festive deep clean — book early, spaces are limited each season.</p>
+        <div class="b-items"><span>Deep clean</span><span>Kitchen</span><span>Windows &amp; glass</span></div>
+        <a href="#book" class="btn btn-solid-light" data-bundle="Festive Deep Clean" data-items="Deep clean|Kitchen|Windows &amp; glass">Book this bundle →</a>
+      </div>
+      <div class="bundle reveal" style="background:linear-gradient(160deg,#0A5A32,#0E8F4C);" data-service="Landlord Handover">
+        <div class="aurora" aria-hidden="true"></div>
+        <span class="bundle-badge">For landlords &amp; agents</span>
+        <h3>Landlord Handover</h3>
+        <p>Hand a property back in perfect condition. An empty-home clean with windows and bathroom descaling for a flawless handover.</p>
+        <div class="b-items"><span>Move-out clean</span><span>Windows</span><span>Bathroom descaling</span></div>
+        <a href="#book" class="btn btn-solid-light" data-bundle="Landlord Handover" data-items="Move-out clean|Windows|Bathroom descaling">Book this bundle →</a>
       </div>
     </div>
   </div>
@@ -1039,33 +1038,6 @@
   </div>
 </section>
 
-<!-- ── App download ──────────────────────────────────── -->
-<section class="app-band section" id="download">
-  <div class="container">
-    <div class="grid-2" style="grid-template-columns:1.2fr 1fr;align-items:center;gap:56px;">
-      <div class="reveal">
-        <h2 class="bigtext" style="color:#fff;">The whole thing fits in your <em>phone</em>.</h2>
-        <p style="color:rgba(255,255,255,.78);font-size:18px;line-height:1.5;max-width:48ch;margin:22px 0 30px;">Book, track, message, pay and rate from one app. Cleaners manage jobs, training and payouts too. iOS and Android, free to download.</p>
-        <div class="app-badges">
-          <a href="javascript:void(0)" class="app-badge" style="cursor:default" title="Coming soon"><span class="glyph"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.05 12.97c-.03-2.83 2.31-4.18 2.41-4.25-1.31-1.91-3.36-2.18-4.09-2.21-1.74-.18-3.41 1.04-4.29 1.04-.9 0-2.25-1.02-3.7-.99-1.91.03-3.66 1.11-4.64 2.81-1.99 3.45-.51 8.55 1.41 11.36.94 1.37 2.06 2.91 3.51 2.86 1.41-.06 1.95-.91 3.66-.91s2.19.91 3.69.88c1.52-.03 2.49-1.4 3.42-2.77 1.08-1.59 1.52-3.13 1.55-3.21-.03-.01-2.97-1.14-3-4.51zM14.43 5.16c.77-.94 1.29-2.24 1.15-3.53-1.11.05-2.46.74-3.26 1.67-.71.82-1.34 2.15-1.17 3.42 1.24.1 2.5-.63 3.28-1.56z"/></svg></span><span class="text"><span class="top">Coming soon</span><span class="bot">App Store</span></span></a>
-          <a href="javascript:void(0)" class="app-badge" style="cursor:default" title="Coming soon"><span class="glyph"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M3.6 1.7C3.2 2.1 3 2.7 3 3.5v17c0 .8.2 1.4.6 1.8l.1.1L13.2 13v-.2L3.7 1.6l-.1.1zm12.9 12.1l-3.2-1.8 2.4-2.4 3.7 2.1c1 .6 1 1.5 0 2.1l-2.9 2zm-1.4.7l-2.3 2.3 2.3 2.3-9.3-5.4 9.3-5.4 2.3 2.3-2.3 2.3z"/></svg></span><span class="text"><span class="top">Coming soon</span><span class="bot">Google Play</span></span></a>
-        </div>
-        <p style="font-size:13px;color:rgba(255,255,255,.5);margin-top:22px;">Or text <strong style="color:#fff">FLOBB</strong> to our Whatsapp Line: +2349062026146. We'll reply right away</p>
-      </div>
-      <div style="text-align:center;" class="reveal d2">
-        <div style="width:200px;height:200px;background:#fff;border-radius:18px;margin:0 auto;padding:18px;display:flex;align-items:center;justify-content:center;">
-          <div style="width:100%;height:100%;background:repeating-conic-gradient(#0F1A36 0% 6.25%, #fff 0% 12.5%) 50% / 14px 14px;border-radius:8px;position:relative;">
-            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;">
-              <div style="width:24px;height:24px;border-radius:50%;background:#0F3A9B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">F</div>
-            </div>
-          </div>
-        </div>
-        <p style="color:rgba(255,255,255,.55);font-size:13px;margin-top:14px;">Scan to download</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ── Contact ──────────────────────────────────────── -->
 <section class="contact-bar" id="contact">
   <div class="aurora" aria-hidden="true"></div>
@@ -1094,9 +1066,9 @@
           <a href="#" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.515 5.276l-.999 3.648 3.973-1.042v.419z"/></svg></a>
         </div>
       </div>
-      <div><h4>For clients</h4><ul><li><a href="#services">Services</a></li><li><a href="#promos">Promos</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#book">Book a clean</a></li></ul></div>
+      <div><h4>For clients</h4><ul><li><a href="#services">Services</a></li><li><a href="#promos">Promos</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#services">Book a clean</a></li></ul></div>
       <div><h4>For cleaners</h4><ul><li><a href="flobb-community/">Join the community</a></li><li><a href="flobb-community/">Certification</a></li><li><a href="flobb-community/">Checklists</a></li></ul></div>
-      <div><h4>Business</h4><ul><li><a href="#b2b">Post-construction</a></li><li><a href="#engage">Janitorial retainer</a></li><li><a href="#contact">Get a quote</a></li></ul></div>
+      <div><h4>Business</h4><ul><li><a href="#b2b">Corporate Services</a></li><li><a href="#engage">Janitorial retainer</a></li><li><a href="#contact">Get a quote</a></li></ul></div>
       <div><h4>Reach us</h4><ul><li><a href="mailto:flobbcleaning@gmail.com">flobbcleaning@gmail.com</a></li><li>26 Admiralty Way,<br>Lekki Phase 1, Lagos.</li><li style="margin-top:8px;font-size:13px;color:rgba(255,255,255,.45);">CEO: Jumoke Benjamin-Henry</li></ul></div>
     </div>
     <div class="footer-bottom">
